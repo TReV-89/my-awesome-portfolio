@@ -2,31 +2,30 @@ import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
-import SkillsSection from "@/components/SkillsSection";
 import ProjectsSection from "@/components/ProjectsSection";
-import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Your Name | Full-Stack Developer Portfolio</title>
+        <title>MLOps Engineer | Portfolio</title>
         <meta 
           name="description" 
-          content="Full-Stack Developer specializing in React, TypeScript, and Node.js. View my projects and get in touch for collaboration opportunities." 
+          content="MLOps engineer specializing in building reliable machine learning infrastructure, ML pipelines, and production ML systems." 
         />
+        <meta name="keywords" content="MLOps, Machine Learning, DevOps, ML Infrastructure, Data Engineering" />
       </Helmet>
       
-      <main className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background">
         <Navigation />
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <ContactSection />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ProjectsSection />
+        </main>
         <Footer />
-      </main>
+      </div>
     </>
   );
 };

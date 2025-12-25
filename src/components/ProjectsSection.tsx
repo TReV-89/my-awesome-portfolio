@@ -1,108 +1,85 @@
-import { ExternalLink, Github } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce solution with real-time inventory, payment processing, and admin dashboard.",
-    tags: ["React", "Node.js", "PostgreSQL", "Stripe"],
-    image: "bg-gradient-to-br from-primary/30 to-primary/10",
-    github: "#",
-    live: "#",
+    title: "ML Pipeline Orchestrator",
+    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
+    tags: ["Kubeflow", "Python", "Kubernetes"],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
+    link: "#",
   },
   {
-    title: "Task Management App",
-    description: "A collaborative project management tool with real-time updates, drag-and-drop, and team features.",
-    tags: ["Next.js", "TypeScript", "Prisma", "Socket.io"],
-    image: "bg-gradient-to-br from-blue-500/30 to-blue-500/10",
-    github: "#",
-    live: "#",
+    title: "Real-time Feature Store",
+    description: "Low-latency feature serving infrastructure supporting both batch and streaming feature computation.",
+    tags: ["Redis", "Kafka", "Feast"],
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
+    link: "#",
   },
   {
-    title: "AI Content Generator",
-    description: "An AI-powered platform for generating marketing copy, blog posts, and social media content.",
-    tags: ["React", "Python", "OpenAI", "FastAPI"],
-    image: "bg-gradient-to-br from-purple-500/30 to-purple-500/10",
-    github: "#",
-    live: "#",
+    title: "Model Monitoring Dashboard",
+    description: "Comprehensive monitoring solution tracking model drift, performance degradation, and data quality.",
+    tags: ["Grafana", "Prometheus", "Python"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+    link: "#",
+  },
+  {
+    title: "GPU Cluster Manager",
+    description: "Resource allocation and scheduling system for distributed model training across GPU clusters.",
+    tags: ["CUDA", "Slurm", "Ray"],
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
+    link: "#",
   },
 ];
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" className="py-24 border-t border-border">
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <p className="text-primary font-medium mb-2">My Work</p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
-              Featured <span className="text-gradient">Projects</span>
-            </h2>
-            <div className="w-20 h-1 bg-primary mx-auto rounded-full" />
-          </div>
+        <div className="mb-12">
+          <p className="font-mono text-sm text-muted-foreground mb-4">Projects</p>
+          <h2 className="text-2xl font-light">Selected work</h2>
+        </div>
 
-          {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <div
-                key={index}
-                className="group rounded-2xl bg-card border border-border overflow-hidden hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
-              >
-                {/* Project Image */}
-                <div className={`aspect-video ${project.image} flex items-center justify-center`}>
-                  <span className="font-display text-2xl font-bold text-foreground/20 group-hover:text-foreground/40 transition-colors">
-                    Preview
-                  </span>
-                </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <a
+              key={index}
+              href={project.link}
+              className="group block"
+            >
+              {/* Project Image */}
+              <div className="aspect-[4/3] mb-4 overflow-hidden bg-muted">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover grayscale-img group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
 
-                {/* Project Content */}
-                <div className="p-6 space-y-4">
-                  <h3 className="font-display text-xl font-semibold group-hover:text-primary transition-colors">
+              {/* Project Content */}
+              <div className="space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-medium group-hover:underline underline-offset-4">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className="text-xs px-2 py-1 bg-secondary rounded-md text-muted-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex gap-3 pt-2">
-                    <Button variant="ghost" size="sm" asChild>
-                      <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <Github size={16} />
-                        Code
-                      </a>
-                    </Button>
-                    <Button variant="ghost" size="sm" asChild>
-                      <a href={project.live} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink size={16} />
-                        Live
-                      </a>
-                    </Button>
-                  </div>
+                  <ArrowUpRight size={16} className="text-muted-foreground group-hover:text-foreground transition-colors flex-shrink-0 mt-1" />
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {project.tags.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="font-mono text-xs text-muted-foreground"
+                    >
+                      {tag}{tagIndex < project.tags.length - 1 && " ·"}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* View All Button */}
-          <div className="text-center mt-12">
-            <Button variant="hero-outline" size="lg">
-              View All Projects
-            </Button>
-          </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>
