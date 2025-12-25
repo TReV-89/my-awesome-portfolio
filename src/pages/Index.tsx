@@ -5,6 +5,8 @@ import AboutSection from "@/components/AboutSection";
 import DemoSection from "@/components/DemoSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
+import PageTransition from "@/components/PageTransition";
 
 const Index = () => {
   return (
@@ -20,13 +22,16 @@ const Index = () => {
       
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main>
-          <HeroSection />
-          <AboutSection />
-          <DemoSection />
-          <ProjectsSection />
-        </main>
+        <PageTransition>
+          <main>
+            <HeroSection />
+            <AboutSection />
+            <DemoSection />
+            <ProjectsSection />
+          </main>
+        </PageTransition>
         <Footer />
+        <BackToTop />
       </div>
     </>
   );
