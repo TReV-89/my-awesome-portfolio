@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const projects = [
   {
@@ -6,28 +7,28 @@ const projects = [
     description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
     tags: ["Kubeflow", "Python", "Kubernetes"],
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
-    link: "#",
+    slug: "ml-pipeline-orchestrator",
   },
   {
     title: "Real-time Feature Store",
     description: "Low-latency feature serving infrastructure supporting both batch and streaming feature computation.",
     tags: ["Redis", "Kafka", "Feast"],
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
-    link: "#",
+    slug: "real-time-feature-store",
   },
   {
     title: "Model Monitoring Dashboard",
     description: "Comprehensive monitoring solution tracking model drift, performance degradation, and data quality.",
     tags: ["Grafana", "Prometheus", "Python"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    link: "#",
+    slug: "model-monitoring-dashboard",
   },
   {
     title: "GPU Cluster Manager",
     description: "Resource allocation and scheduling system for distributed model training across GPU clusters.",
     tags: ["CUDA", "Slurm", "Ray"],
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
-    link: "#",
+    slug: "gpu-cluster-manager",
   },
 ];
 
@@ -42,9 +43,9 @@ const ProjectsSection = () => {
 
         <div className="grid md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <a
+            <Link
               key={index}
-              href={project.link}
+              to={`/project/${project.slug}`}
               className="group block"
             >
               {/* Project Image */}
@@ -78,7 +79,7 @@ const ProjectsSection = () => {
                   ))}
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
