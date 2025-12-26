@@ -4,26 +4,9 @@ const HeroSection = () => {
   return (
     <section className="min-h-screen flex items-center justify-center relative pt-20">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
-          {/* Profile Photo */}
-          <div className="flex-shrink-0 animate-fade-in">
-            <div className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-2 border-border bg-muted">
-              {/* Replace this placeholder with your actual photo */}
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                <span className="font-mono text-xs text-center px-4">Your Photo Here</span>
-              </div>
-              {/* Uncomment and update src when you have your photo:
-              <img 
-                src="/your-photo.jpg" 
-                alt="Your Name" 
-                className="w-full h-full object-cover"
-              />
-              */}
-            </div>
-          </div>
-
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:items-center gap-12 lg:gap-16">
           {/* Text Content */}
-          <div className="max-w-xl text-center lg:text-left">
+          <div className="flex-1 max-w-xl text-center lg:text-left">
             <p className="font-mono text-sm text-muted-foreground mb-4 animate-fade-in">
               Applied ML Engineer
             </p>
@@ -40,6 +23,23 @@ const HeroSection = () => {
               I design and implement end-to-end ML pipelines, from data processing 
               to model deployment and monitoring at scale.
             </p>
+          </div>
+
+          {/* Profile Photo - Rectangular Frame */}
+          <div className="flex-shrink-0 animate-fade-in">
+            <div className="w-64 h-80 md:w-72 md:h-96 lg:w-80 lg:h-[28rem] rounded-lg overflow-hidden border-2 border-border bg-muted shadow-lg">
+              {/* Replace this placeholder with your actual photo */}
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                <span className="font-mono text-xs text-center px-4">Your Photo Here</span>
+              </div>
+              {/* Uncomment and update src when you have your photo:
+              <img 
+                src="/your-photo.jpg" 
+                alt="Your Name" 
+                className="w-full h-full object-cover"
+              />
+              */}
+            </div>
           </div>
         </div>
 
