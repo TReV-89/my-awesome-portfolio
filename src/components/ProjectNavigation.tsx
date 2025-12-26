@@ -32,8 +32,8 @@ const ProjectNavigation = () => {
           >
             <div className="container mx-auto px-6 py-5">
               <div className="flex items-center justify-between">
-                <Link to="/" className="font-mono text-sm font-medium tracking-tight">
-                  mlops.engineer
+              <Link to="/" className="font-mono text-sm font-medium tracking-tight">
+                  applied.ml.engineer
                 </Link>
                 <Link
                   to="/"
