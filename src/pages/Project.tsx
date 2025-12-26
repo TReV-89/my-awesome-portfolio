@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Github, ExternalLink, Copy, Check } from "lucide-react";
+import { Github, ExternalLink, Copy, Check } from "lucide-react";
 import { useState } from "react";
-import Navigation from "@/components/Navigation";
+import ProjectNavigation from "@/components/ProjectNavigation";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
@@ -568,11 +568,10 @@ const Project = () => {
   if (!project) {
     return (
       <div className="min-h-screen bg-background text-foreground">
-        <Navigation />
+        <ProjectNavigation />
         <main className="container mx-auto px-6 py-24">
           <p className="text-muted-foreground">Project not found.</p>
           <Link to="/#projects" className="inline-flex items-center gap-2 mt-4 text-sm hover:underline">
-            <ArrowLeft size={14} />
             Back to projects
           </Link>
         </main>
@@ -588,19 +587,10 @@ const Project = () => {
         <meta name="description" content={project.description} />
       </Helmet>
 
-      <Navigation />
+      <ProjectNavigation />
 
       <PageTransition>
         <main className="container mx-auto px-6 py-24">
-          {/* Back Link */}
-          <Link 
-            to="/#projects" 
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
-          >
-            <ArrowLeft size={14} />
-            Back to projects
-          </Link>
-
           {/* Project Header */}
           <div className="mb-12">
             <h1 className="text-3xl md:text-4xl font-light mb-4">{project.title}</h1>
