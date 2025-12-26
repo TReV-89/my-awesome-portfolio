@@ -2,9 +2,9 @@ import { Github, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Mail, href: "mailto:hello@example.com", label: "Email" },
+    { icon: Github, href: "https://github.com/TReV-89", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/tsaaka/", label: "LinkedIn" },
+    { icon: Mail, href: "mailto:trevie89@gmail.com", label: "Email" },
   ];
 
   return (
@@ -14,7 +14,7 @@ const Footer = () => {
           <div className="space-y-2">
             <p className="font-mono text-sm">mlops.engineer</p>
             <p className="text-sm text-muted-foreground">
-              Available for opportunities
+              Available for opportunities to work on exciting projects!
             </p>
           </div>
 

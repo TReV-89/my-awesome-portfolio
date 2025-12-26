@@ -7,24 +7,21 @@ const AboutSection = () => {
           
           <div className="space-y-6">
             <p className="text-lg leading-relaxed">
-              I'm an MLOps engineer focused on bridging the gap between machine 
-              learning research and production systems. I build infrastructure 
-              that makes ML workflows reproducible, scalable, and maintainable.
+              I'm a passionate Applied ML Engineer with an electrical engineering background dedicated to building scalable machine learning 
+              solutions that drive real business value.
             </p>
             
             <p className="text-muted-foreground leading-relaxed">
-              With experience across cloud platforms and ML frameworks, I specialize 
-              in designing CI/CD pipelines for ML, implementing model monitoring 
-              solutions, and optimizing inference at scale. I believe in automation, 
-              observability, and treating ML systems with the same rigor as 
-              traditional software.
+              My work focuses on translating complex algorithms into production-ready systems. 
+              I specialize in designing robust ML pipelines, optimizing model inference, and 
+              deploying intelligent applications at scale.
             </p>
 
             <div className="pt-8 border-t border-border">
               <p className="font-mono text-sm text-muted-foreground mb-4">Stack</p>
               <p className="text-sm text-muted-foreground">
-                Python · Kubernetes · Docker · MLflow · Kubeflow · Airflow · 
-                TensorFlow · PyTorch · AWS · GCP · Terraform · Prometheus · Grafana
+                Python · PyTorch · TensorFlow · FastAPI · MLflow · Weights & Biases · Docker · Supervised & Reinforcement Fine-Tuning (SFT, GRPO) ·
+                 Transfer Learning · Time Series ML · Optimization & Scheduling · ML Systems Design
               </p>
             </div>
           </div>
