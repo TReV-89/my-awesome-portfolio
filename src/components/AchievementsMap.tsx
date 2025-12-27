@@ -36,6 +36,25 @@ const AchievementsMap = () => {
   const map = useRef<L.Map | null>(null);
   const [hoveredLocation, setHoveredLocation] = useState<Location | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [activeLocation, setActiveLocation] = useState<string | null>(null);
+
+  const flyToLocation = (location: Location) => {
+    if (map.current) {
+      map.current.flyTo(location.coordinates, 12, {
+        duration: 1.5
+      });
+      setActiveLocation(location.name);
+    }
+  };
+
+  const resetView = () => {
+    if (map.current) {
+      map.current.flyTo([0, 25], 3, {
+        duration: 1.5
+      });
+      setActiveLocation(null);
+    }
+  };
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -114,6 +133,33 @@ const AchievementsMap = () => {
         <h2 className="font-mono text-sm text-muted-foreground mb-4">Achievements Map</h2>
         <h3 className="text-3xl md:text-4xl font-bold mb-8">Where I've Made an Impact</h3>
         
+        {/* Location Links */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          <button
+            onClick={resetView}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              activeLocation === null
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            Overview
+          </button>
+          {locations.map((location) => (
+            <button
+              key={location.name}
+              onClick={() => flyToLocation(location)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeLocation === location.name
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {location.name}
+            </button>
+          ))}
+        </div>
+
         <div className="relative w-full h-[500px] rounded-lg overflow-hidden border border-border">
           <div ref={mapContainer} className="absolute inset-0" />
           
