@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
 import DemoSection from "@/components/DemoSection";
 import ProjectsSection from "@/components/ProjectsSection";
+import AchievementsMap from "@/components/AchievementsMap";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
@@ -28,6 +29,7 @@ const Index = () => {
             <AboutSection />
             <DemoSection />
             <ProjectsSection />
+            <AchievementsMap />
           </main>
         </PageTransition>
         <Footer />
