@@ -34,9 +34,27 @@ const locations: Location[] = [
 const AchievementsMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
+  const markersRef = useRef<Map<string, L.Marker>>(new Map());
   const [hoveredLocation, setHoveredLocation] = useState<Location | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [activeLocation, setActiveLocation] = useState<string | null>(null);
+
+  const createCustomIcon = (isActive: boolean) => {
+    return L.divIcon({
+      className: 'custom-marker',
+      html: `<div style="
+        width: ${isActive ? '20px' : '16px'};
+        height: ${isActive ? '20px' : '16px'};
+        background-color: ${isActive ? 'hsl(142, 76%, 36%)' : 'hsl(var(--primary))'};
+        border-radius: 50%;
+        border: 3px solid hsl(var(--background));
+        box-shadow: 0 0 ${isActive ? '15px' : '10px'} rgba(0,0,0,0.3);
+        transition: all 0.3s ease;
+      "></div>`,
+      iconSize: [isActive ? 20 : 16, isActive ? 20 : 16],
+      iconAnchor: [isActive ? 10 : 8, isActive ? 10 : 8],
+    });
+  };
 
   const flyToLocation = (location: Location) => {
     if (map.current) {
@@ -73,29 +91,13 @@ const AchievementsMap = () => {
       maxZoom: 20
     }).addTo(map.current);
 
-    // Custom marker icon
-    const createCustomIcon = () => {
-      return L.divIcon({
-        className: 'custom-marker',
-        html: `<div style="
-          width: 16px;
-          height: 16px;
-          background-color: hsl(var(--primary));
-          border-radius: 50%;
-          border: 3px solid hsl(var(--background));
-          box-shadow: 0 0 10px rgba(0,0,0,0.3);
-          transition: transform 0.2s ease;
-        "></div>`,
-        iconSize: [16, 16],
-        iconAnchor: [8, 8],
-      });
-    };
-
     // Add markers for each location
     locations.forEach((location) => {
       const marker = L.marker(location.coordinates, {
-        icon: createCustomIcon(),
+        icon: createCustomIcon(false),
       }).addTo(map.current!);
+
+      markersRef.current.set(location.name, marker);
 
       marker.on('mouseover', (e) => {
         setHoveredLocation(location);
@@ -124,8 +126,16 @@ const AchievementsMap = () => {
     return () => {
       map.current?.remove();
       map.current = null;
+      markersRef.current.clear();
     };
   }, []);
+
+  // Update marker icons when activeLocation changes
+  useEffect(() => {
+    markersRef.current.forEach((marker, name) => {
+      marker.setIcon(createCustomIcon(name === activeLocation));
+    });
+  }, [activeLocation]);
 
   return (
     <section className="py-20 bg-muted/30">
