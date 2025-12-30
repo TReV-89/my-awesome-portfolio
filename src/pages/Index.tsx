@@ -12,10 +12,10 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>MLOps Engineer | Portfolio</title>
+        <title>Applied AI Engineer | Portfolio</title>
         <meta 
           name="description" 
-          content="MLOps engineer specializing in building reliable machine learning infrastructure, ML pipelines, and production ML systems." 
+          content="Applied AI engineer specializing in building reliable machine learning infrastructure, ML pipelines, and production ML systems." 
         />
         <meta name="keywords" content="MLOps, Machine Learning, DevOps, ML Infrastructure, Data Engineering" />
       </Helmet>

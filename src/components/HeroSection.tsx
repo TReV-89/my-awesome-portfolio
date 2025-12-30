@@ -12,33 +12,28 @@ const HeroSection = () => {
             </p>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-4 animate-slide-up leading-tight">
-              Your Name
+              <span className="font-semibold">Trevor Tebaweswa </span>
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-6 animate-slide-up font-light" style={{ animationDelay: "0.05s" }}>
-              Building reliable machine learning infrastructure
+              Engineering scalable AI solutions for real-world impact
             </p>
 
             <p className="text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed animate-slide-up" style={{ animationDelay: "0.1s" }}>
-              I design and implement end-to-end ML pipelines, from data processing 
-              to model deployment and monitoring at scale.
+              I bridge the gap between research and production, transforming machine learning models into reliable, high-performance applications.
             </p>
           </div>
 
           {/* Profile Photo - Rectangular Frame */}
           <div className="flex-shrink-0 animate-fade-in">
             <div className="w-64 h-80 md:w-72 md:h-96 lg:w-80 lg:h-[28rem] rounded-lg overflow-hidden border-2 border-border bg-muted shadow-lg">
-              {/* Replace this placeholder with your actual photo */}
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                <span className="font-mono text-xs text-center px-4">Your Photo Here</span>
-              </div>
-              {/* Uncomment and update src when you have your photo:
+              
               <img 
-                src="/your-photo.jpg" 
+                src="/images/IMG_7292.jpeg" 
                 alt="Your Name" 
                 className="w-full h-full object-cover"
               />
-              */}
+             
             </div>
           </div>
         </div>

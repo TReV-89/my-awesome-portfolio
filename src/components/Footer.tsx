@@ -3,7 +3,7 @@ import { Github, Linkedin, Mail } from "lucide-react";
 const Footer = () => {
   const socialLinks = [
     { icon: Github, href: "https://github.com/TReV-89", label: "GitHub" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/tsaaka/", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/ttebaweswa/", label: "LinkedIn" },
     { icon: Mail, href: "mailto:trevie89@gmail.com", label: "Email" },
   ];
 
