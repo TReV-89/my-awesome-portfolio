@@ -1,12 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
 import { Github, ExternalLink, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProjectNavigation from "@/components/ProjectNavigation";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
-
 // Project data with enhanced details
 const projectsData: Record<string, {
   title: string;
@@ -565,6 +564,9 @@ const Project = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? projectsData[slug] : null;
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
   if (!project) {
     return (
       <div className="min-h-screen bg-background text-foreground">
