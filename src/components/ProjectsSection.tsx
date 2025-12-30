@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 
 const projects = [
   {
-    title: "ML Pipeline Orchestrator",
-    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
-    tags: ["Kubeflow", "Python", "Kubernetes"],
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
-    slug: "ml-pipeline-orchestrator",
+    title: "Online Food Ordering Agent",
+    description: `An AI-powered food ordering agent that automates searching menus, deals, and placing orders 
+                  on Glovo through a conversational, multi-agent system.`,
+    tags: ["Langgraph", "Python", "Docker"],
+    image: "/food-agent.png",
+    slug: "ai-food-ordering-agent",
   },
   {
-    title: "Real-time Feature Store",
+    title: "Energy Consumption Prediction-based Charging Scheduler",
     description: "Low-latency feature serving infrastructure supporting both batch and streaming feature computation.",
     tags: ["Redis", "Kafka", "Feast"],
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",

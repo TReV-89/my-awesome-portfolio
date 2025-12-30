@@ -2,7 +2,7 @@ import { ExternalLink } from "lucide-react";
 
 const DemoSection = () => {
   // Replace this with your actual Streamlit app URL
-  const streamlitUrl = "https://your-streamlit-app.streamlit.app";
+  const streamlitUrl = "http://localhost/";
 
   return (
     <section id="demo" className="py-24 border-t border-border">
@@ -32,7 +32,7 @@ const DemoSection = () => {
         {/* Streamlit Embed */}
         <div className="border border-border bg-card">
           <iframe
-            src={streamlitUrl}
+            src={"http://localhost/"}
             title="CV Chat Assistant"
             className="w-full h-[600px] grayscale hover:grayscale-0 transition-all duration-500"
             style={{ border: "none" }}
@@ -41,7 +41,7 @@ const DemoSection = () => {
         </div>
 
         <p className="text-xs text-muted-foreground mt-4">
-          Powered by RAG (Retrieval-Augmented Generation)
+          Powered by RAG and Streamlit.
         </p>
       </div>
     </section>

@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <p className="font-mono text-sm">mlops.engineer</p>
+            <p className="font-mono text-sm">applied.ml.engineer</p>
             <p className="text-sm text-muted-foreground">
               Available for opportunities to work on exciting projects!
             </p>
