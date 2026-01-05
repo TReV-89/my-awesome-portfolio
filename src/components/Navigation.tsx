@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { SectionType } from "@/pages/Index";
 
-const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Ask AI", href: "#demo" },
-  { name: "Projects", href: "#projects" },
-  { name: "Achievements", href: "#achievements" },
-  { name: "Publications", href: "#publications" },
+interface NavLink {
+  name: string;
+  section: SectionType;
+}
+
+const navLinks: NavLink[] = [
+  { name: "About", section: "about" },
+  { name: "Ask AI", section: "demo" },
+  { name: "Projects", section: "projects" },
+  { name: "Achievements", section: "achievements" },
+  { name: "Publications", section: "publications" },
+  { name: "Certifications", section: "certifications" },
 ];
 
-const Navigation = () => {
+interface NavigationProps {
+  activeSection: SectionType;
+  onSectionChange: (section: SectionType) => void;
+}
+
+const Navigation = ({ activeSection, onSectionChange }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -20,6 +32,13 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (section: SectionType) => {
+    onSectionChange(section);
+    setIsMobileMenuOpen(false);
+    // Scroll to top when switching sections
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <nav
@@ -36,13 +55,17 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.name}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                onClick={() => handleNavClick(link.section)}
+                className={`text-sm transition-colors duration-200 ${
+                  activeSection === link.section
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {link.name}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -60,14 +83,17 @@ const Navigation = () => {
           <div className="md:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.name}
-                  href={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => handleNavClick(link.section)}
+                  className={`text-sm text-left transition-colors ${
+                    activeSection === link.section
+                      ? "text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                 >
                   {link.name}
-                </a>
+                </button>
               ))}
             </div>
           </div>
