@@ -138,7 +138,7 @@ const AchievementsMap = () => {
   }, [activeLocation]);
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section id="achievements" className="py-20 bg-muted/30">
       <div className="container mx-auto px-6">
         <h2 className="font-mono text-sm text-muted-foreground mb-4">Achievements Map</h2>
         <h3 className="text-3xl md:text-4xl font-bold mb-8">Where I've Made an Impact</h3>
