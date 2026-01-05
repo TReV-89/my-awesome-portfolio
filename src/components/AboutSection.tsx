@@ -17,6 +17,17 @@ const AboutSection = () => {
               deploying intelligent applications at scale.
             </p>
 
+            <div className="flex flex-wrap gap-6 pt-4">
+              <div className="flex items-center gap-2 text-sm">
+                <span className="text-muted-foreground">📍</span>
+                <span>Kampala, Uganda</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <span className="text-muted-foreground">🏢</span>
+                <span>Sunbird AI</span>
+              </div>
+            </div>
+
             <div className="pt-8 border-t border-border">
               <p className="font-mono text-sm text-muted-foreground mb-4">Stack</p>
               <p className="text-sm text-muted-foreground">
