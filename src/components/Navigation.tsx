@@ -36,8 +36,13 @@ const Navigation = ({ activeSection, onSectionChange }: NavigationProps) => {
   const handleNavClick = (section: SectionType) => {
     onSectionChange(section);
     setIsMobileMenuOpen(false);
-    // Scroll to top when switching sections
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Scroll to section content area (below hero)
+    setTimeout(() => {
+      const sectionElement = document.getElementById(section);
+      if (sectionElement) {
+        sectionElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 50);
   };
 
   return (
