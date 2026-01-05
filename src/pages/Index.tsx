@@ -5,6 +5,7 @@ import AboutSection from "@/components/AboutSection";
 import DemoSection from "@/components/DemoSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import AchievementsMap from "@/components/AchievementsMap";
+import PublicationsSection from "@/components/PublicationsSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
@@ -30,6 +31,7 @@ const Index = () => {
             <DemoSection />
             <ProjectsSection />
             <AchievementsMap />
+            <PublicationsSection />
           </main>
         </PageTransition>
         <Footer />

@@ -5,6 +5,8 @@ const navLinks = [
   { name: "About", href: "#about" },
   { name: "Ask AI", href: "#demo" },
   { name: "Projects", href: "#projects" },
+  { name: "Achievements", href: "#achievements" },
+  { name: "Publications", href: "#publications" },
 ];
 
 const Navigation = () => {
