@@ -12,29 +12,29 @@ const locations: Location[] = [
   {
     name: "KIIRA MOTORS CORPORATION",
     coordinates: [0.558156526614822, 33.23301646441791],
-    achievement: `Increased Production Efficiency: Contributed to the production of 28 buses and increased production rate of 6.6-meter EV buses by 40%.     
-                  Improved Battery Life: Developed an energy consumption model that reduced battery degradation costs by 33%.
+    achievement: `Increased Production Efficiency: Contributed to the production of 28 buses and increased production rate of 6.6-meter EV buses by 40%.\n    
+                  Improved Battery Life: Developed an energy consumption model that reduced battery degradation costs by 33%.\n
                   Enhanced Testing: Conducted 13 successful dynamic tests without any powertrain or electrical engineering system failures.`
   },
   {
     name: "SUNBIRD AI",
     coordinates: [0.3483, 32.6052],
-    achievement: `Language Model Development: Developed a language identification model with 99.93% accuracy and fine-tuned medical-domain large language models for offline applications.
-                  Noise Classification: Developed a noise classification model with 81% accuracy and deployed it on Raspberry Pi modules using edge computing.
+    achievement: `Language Model Development: Developed a language identification model with 99.93% accuracy and fine-tuned medical-domain large language models for offline applications.\n
+                  Noise Classification: Developed a noise classification model with 81% accuracy and deployed it on Raspberry Pi modules using edge computing.\n
                   Model Improvement: Improved the factuality response of Sunflower, Uganda's first multilingual large language model, by over 15% through reinforcement learning.`
   },
   {
     name: "MAKERERE UNIVERSITY",
     coordinates: [0.3350, 32.5675],
-    achievement: `Class Representative (2022-2025):
-                  Collaborated with other class representatives to replace blackboards with whiteboards in over 15 classrooms.
-                  Bachelor of Science in Electrical Engineering (2022-2025):
-                  Maintained a CGPA above 4.0 (4.11).`
+    achievement: `Class Representative (2022-2025):\n
+                  Collaborated with other class representatives to replace blackboards with whiteboards in over 15 classrooms.\n
+                  Bachelor of Science in Electrical Engineering (2022-2025):\n
+                  Maintained a CGPA above 4.0 on a 5.0 scale (4.11).`
   },
   {
     name: "UNIVERSITY OF CAPE TOWN",
     coordinates: [-33.9575, 18.4606],
-    achievement: `Certificate in Introduction to Java (CSC1016S, January 2020 - December 2020)
+    achievement: `Certificate in Introduction to Java (CSC1016S, January 2020 - December 2020)\n
                   Certificate in Introduction to Python (CSC1017S, January 2020 - December 2020)`
   }
 ];

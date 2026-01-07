@@ -31,65 +31,95 @@ const projectsData: Record<string, {
     url: string;
   }[];
 }> = {
-  "ml-pipeline-orchestrator": {
-    title: "ML Pipeline Orchestrator",
-    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
-    fullDescription: "A comprehensive ML pipeline orchestration platform designed to streamline the entire machine learning lifecycle. This system handles everything from data ingestion and feature engineering to model training, validation, and deployment. Built with scalability in mind, it supports distributed training across multiple GPU nodes and includes sophisticated monitoring for model performance degradation.",
-    tags: ["Kubeflow", "Python", "Kubernetes"],
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop",
+  "ai-food-ordering-agent": {
+    title: "AI-Powered Online Food Ordering Agent",
+    description: "An AI-powered food ordering agent that automates searching menus, deals, and placing orders for Glovo meals through a conversational, multi-agent system.",
+    fullDescription: "This project involves building an intelligent agent that leverages large language models to interact with the Glovo platform. The agent can understand user preferences, search for food items and their prices. It utilizes a multi-agent architecture where different specialized agents handle tasks such as menu parsing, deal-hunting, ensuring a seamless and efficient user experience.",
+    tags: ["Langgraph", "Python", "Docker"],
+    image: "/food-agent.png",
     github: "#",
     live: "#",
     features: [
-      "Automated model retraining based on data drift detection",
-      "A/B testing framework for model comparison",
-      "One-click rollback to previous model versions",
-      "Real-time pipeline monitoring and alerting",
-      "Integration with major cloud providers (AWS, GCP, Azure)"
+      "Conversational interface for food ordering",
+      "Automated menu searching and deal finding",
+      "Multi-agent system for task specialization",
+
     ],
-    techStack: ["Python", "Kubeflow", "Kubernetes", "Apache Airflow", "MLflow", "Docker", "Prometheus", "Grafana"],
+    techStack: ["Python", "Docker", "Langgraph", "Gemini API", "Streamlit"],
     architecture: {
       description: "The system follows a microservices architecture with separate components for data ingestion, feature engineering, model training, and serving. Each component communicates through message queues for loose coupling and resilience.",
       diagram: `
-┌─────────────────────────────────────────────────────────────────┐
-│                        Data Sources                              │
-│    ┌──────────┐    ┌──────────┐    ┌──────────┐                 │
-│    │  S3/GCS  │    │ Kafka    │    │ Database │                 │
-│    └────┬─────┘    └────┬─────┘    └────┬─────┘                 │
-└─────────┼───────────────┼───────────────┼───────────────────────┘
-          │               │               │
-          ▼               ▼               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     Data Ingestion Layer                         │
-│    ┌──────────────────────────────────────────────────┐         │
-│    │            Apache Airflow DAGs                    │         │
-│    └──────────────────────┬───────────────────────────┘         │
-└───────────────────────────┼─────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Feature Engineering                           │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  Spark Jobs  │───▶│ Feature Store │───▶│  Validation  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Training Pipeline                             │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │   Kubeflow   │───▶│   MLflow     │───▶│  Model Reg   │     │
-│    │   Pipelines  │    │   Tracking   │    │              │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Serving Infrastructure                        │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  A/B Router  │───▶│  Model Pods  │───▶│  Monitoring  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-      `
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           USER INTERFACE LAYER                                  │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                    Streamlit Chat Interface                               │  │
+│  │  • Natural language input                                                 │  │
+│  │  • Real-time conversation                                                 │  │
+│  │  • Order confirmation & checkout                                          │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        ORCHESTRATION LAYER                                      │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                         LangGraph Workflow                                │  │
+│  │  ┌─────────────────┐         ┌─────────────────┐                         │  │
+│  │  │  State Manager  │         │  Flow Control   │                         │  │
+│  │  │  • Conversation │ ◄─────► │  • Routing      │                         │  │
+│  │  │  • User context │         │  • Agent coord. │                         │  │
+│  │  └─────────────────┘         └─────────────────┘                         │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                         LangChain Core                                    │  │
+│  │  • Prompt templates      • Chain execution      • LLM integration        │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          MULTI-AGENT SYSTEM                                     │
+│                                                                                 │
+│  ┌───────────────────────────────────────────────────────────────────────────┐  │
+│  │                       SUPERVISOR AGENT (Coordinator)                      │  │
+│  │  • Understands user intent                                                │  │
+│  │  • Routes requests to specialized agents                                  │  │
+│  │  • Manages conversation state & context                                   │  │
+│  │  • Synthesizes responses from multiple agents                             │  │
+│  └───────────────────────────────────────────────────────────────────────────┘  │
+│                                      │                                          │
+│          ┌───────────────────────────┴───────────────────────────┐             │
+│          │                                                       │             │
+│          ▼                                                       ▼             │
+│  ┌──────────────────────────────────┐      ┌──────────────────────────────────┐│
+│  │     RETRIEVAL AGENT              │      │     GENERATOR AGENT              ││
+│  │                                  │      │                                  ││
+│  │ • Vector search via ChromaDB     │      │ • Natural language responses     ││
+│  │ • Menu item matching             │      │ • Context-aware replies          ││
+│  │ • Restaurant filtering           │      │ • Format recommendations         ││
+│  │ • Semantic similarity search     │      │ • Order confirmations            ││
+│  │ • Multi-criteria filtering       │      │ • Conversational flow            ││
+│  │ • Price & dietary preferences    │      │ • Response synthesis             ││
+│  │                                  │      │                                  ││
+│  └────────┬─────────────────────────┘      └────────┬─────────────────────────┘│
+│           │                                         │                          │
+└───────────┼─────────────────────────────────────────┼──────────────────────────┘
+            │                                         │
+            ▼                                         ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                       DATA & KNOWLEDGE LAYER                                    │
+│  ┌───────────────────────────────────┐  ┌───────────────────────────────────┐   │
+│  │      ChromaDB Vector Store        │  │      Glovo Data Source            │   │
+│  │  ┌─────────────────────────────┐  │  │  ┌─────────────────────────────┐  │   │
+│  │  │ • Menu embeddings           │  │  │  │ • Restaurant listings       │  │   │
+│  │  │ • Restaurant metadata       │  │  │  │ • Menu items & prices       │  │   │
+│  │  │ • Semantic search index     │  │  │  │ • Promotions & deals        │  │   │
+│  │  │ • Similarity matching       │  │  │  │ • Dietary information       │  │   │
+│  │  │ • Fast retrieval            │  │  │  │ • Availability status       │  │   │
+│  │  └─────────────────────────────┘  │  │  └─────────────────────────────┘  │   │
+│  └───────────────────────────────────┘  └───────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                      `
     },
     codeSnippet: {
       title: "Pipeline Definition",
