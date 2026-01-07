@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const projects = [
   {
-    title: "ML Pipeline Orchestrator",
-    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
-    tags: ["Kubeflow", "Python", "Kubernetes"],
+    title: "Food Ordering AI Assistant",
+    description: "Conversational AI system for food ordering using multi-agent RAG architecture with LangGraph and ChromaDB.",
+    tags: ["LangGraph", "ChromaDB", "Python", "RAG"],
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop",
     slug: "ml-pipeline-orchestrator",
   },
