@@ -6,6 +6,8 @@ import ProjectNavigation from "@/components/ProjectNavigation";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
+import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
+
 // Project data with enhanced details
 const projectsData: Record<string, {
   title: string;
@@ -20,6 +22,7 @@ const projectsData: Record<string, {
   architecture: {
     description: string;
     diagram: string;
+    useCustomComponent?: boolean;
   };
   codeSnippet: {
     title: string;
@@ -32,117 +35,77 @@ const projectsData: Record<string, {
   }[];
 }> = {
   "ml-pipeline-orchestrator": {
-    title: "ML Pipeline Orchestrator",
-    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
-    fullDescription: "A comprehensive ML pipeline orchestration platform designed to streamline the entire machine learning lifecycle. This system handles everything from data ingestion and feature engineering to model training, validation, and deployment. Built with scalability in mind, it supports distributed training across multiple GPU nodes and includes sophisticated monitoring for model performance degradation.",
-    tags: ["Kubeflow", "Python", "Kubernetes"],
+    title: "Food Ordering AI Assistant",
+    description: "Conversational AI system for food ordering using multi-agent RAG architecture with LangGraph and ChromaDB.",
+    fullDescription: "An intelligent food ordering assistant powered by a multi-agent Retrieval-Augmented Generation (RAG) system. This conversational AI understands natural language requests, searches through restaurant menus using semantic similarity, and provides personalized recommendations. Built with LangGraph for orchestration, ChromaDB for vector storage, and a supervisor agent pattern for coordinating specialized retrieval and generation agents.",
+    tags: ["LangGraph", "ChromaDB", "Python", "RAG"],
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop",
     github: "#",
     live: "#",
     features: [
-      "Automated model retraining based on data drift detection",
-      "A/B testing framework for model comparison",
-      "One-click rollback to previous model versions",
-      "Real-time pipeline monitoring and alerting",
-      "Integration with major cloud providers (AWS, GCP, Azure)"
+      "Natural language food ordering through conversational interface",
+      "Multi-agent system with supervisor, retrieval, and generator agents",
+      "Semantic search across restaurant menus using ChromaDB embeddings",
+      "Context-aware recommendations based on dietary preferences",
+      "Real-time conversation state management with LangGraph"
     ],
-    techStack: ["Python", "Kubeflow", "Kubernetes", "Apache Airflow", "MLflow", "Docker", "Prometheus", "Grafana"],
+    techStack: ["Python", "LangGraph", "LangChain", "ChromaDB", "Streamlit", "OpenAI", "Glovo API"],
     architecture: {
-      description: "The system follows a microservices architecture with separate components for data ingestion, feature engineering, model training, and serving. Each component communicates through message queues for loose coupling and resilience.",
-      diagram: `
-┌─────────────────────────────────────────────────────────────────┐
-│                        Data Sources                              │
-│    ┌──────────┐    ┌──────────┐    ┌──────────┐                 │
-│    │  S3/GCS  │    │ Kafka    │    │ Database │                 │
-│    └────┬─────┘    └────┬─────┘    └────┬─────┘                 │
-└─────────┼───────────────┼───────────────┼───────────────────────┘
-          │               │               │
-          ▼               ▼               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     Data Ingestion Layer                         │
-│    ┌──────────────────────────────────────────────────┐         │
-│    │            Apache Airflow DAGs                    │         │
-│    └──────────────────────┬───────────────────────────┘         │
-└───────────────────────────┼─────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Feature Engineering                           │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  Spark Jobs  │───▶│ Feature Store │───▶│  Validation  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Training Pipeline                             │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │   Kubeflow   │───▶│   MLflow     │───▶│  Model Reg   │     │
-│    │   Pipelines  │    │   Tracking   │    │              │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Serving Infrastructure                        │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  A/B Router  │───▶│  Model Pods  │───▶│  Monitoring  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-      `
+      description: "The system implements a multi-agent RAG architecture with four distinct layers: User Interface (Streamlit), Orchestration (LangGraph/LangChain), Multi-Agent System (Supervisor, Retrieval, Generator), and Data Layer (ChromaDB, Glovo). The supervisor agent coordinates between specialized agents to handle user requests.",
+      diagram: "custom",
+      useCustomComponent: true
     },
     codeSnippet: {
-      title: "Pipeline Definition",
+      title: "LangGraph Agent Workflow",
       language: "python",
-      code: `from kfp import dsl
-from kfp.components import create_component_from_func
+      code: `from langgraph.graph import StateGraph, END
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, AIMessage
 
-@dsl.pipeline(
-    name='ML Training Pipeline',
-    description='End-to-end ML pipeline with drift detection'
-)
-def ml_pipeline(
-    data_path: str,
-    model_name: str,
-    drift_threshold: float = 0.1
-):
-    # Data validation step
-    validate_op = validate_data(data_path)
+class AgentState(TypedDict):
+    messages: List[BaseMessage]
+    current_agent: str
+    context: Dict[str, Any]
+
+def create_food_ordering_graph():
+    graph = StateGraph(AgentState)
     
-    # Feature engineering
-    features_op = engineer_features(
-        validate_op.outputs['validated_data']
+    # Add nodes for each agent
+    graph.add_node("supervisor", supervisor_agent)
+    graph.add_node("retrieval", retrieval_agent)
+    graph.add_node("generator", generator_agent)
+    
+    # Define routing logic
+    graph.add_conditional_edges(
+        "supervisor",
+        route_to_agent,
+        {
+            "retrieval": "retrieval",
+            "generator": "generator",
+            "end": END
+        }
     )
     
-    # Drift detection
-    drift_op = detect_drift(
-        features_op.outputs['features'],
-        threshold=drift_threshold
-    )
+    # Connect agents back to supervisor
+    graph.add_edge("retrieval", "supervisor")
+    graph.add_edge("generator", "supervisor")
     
-    # Conditional training
-    with dsl.Condition(drift_op.outputs['drift_detected'] == True):
-        train_op = train_model(
-            features_op.outputs['features'],
-            model_name=model_name
-        )
-        
-        # Model validation
-        validate_model_op = validate_model(
-            train_op.outputs['model_artifact']
-        )
-        
-        # Deploy if validation passes
-        with dsl.Condition(validate_model_op.outputs['passed'] == True):
-            deploy_model(
-                train_op.outputs['model_artifact'],
-                model_name=model_name
-            )`
+    graph.set_entry_point("supervisor")
+    return graph.compile()
+
+def retrieval_agent(state: AgentState) -> AgentState:
+    query = state["messages"][-1].content
+    results = chroma_collection.query(
+        query_texts=[query],
+        n_results=5
+    )
+    state["context"]["menu_items"] = results
+    return state`
     },
     screenshots: [
-      { title: "Pipeline Dashboard", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
-      { title: "Training Metrics", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" },
-      { title: "Model Registry", url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop" }
+      { title: "Chat Interface", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
+      { title: "Menu Recommendations", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" },
+      { title: "Order Confirmation", url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop" }
     ]
   },
   "real-time-feature-store": {
@@ -681,11 +644,15 @@ const Project = () => {
             <p className="text-foreground/80 text-sm mb-6 max-w-3xl">
               {project.architecture.description}
             </p>
-            <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
-              <pre className="font-mono text-xs text-foreground/70 whitespace-pre">
-                {project.architecture.diagram}
-              </pre>
-            </div>
+            {slug === "ml-pipeline-orchestrator" ? (
+              <FoodOrderingArchitecture />
+            ) : (
+              <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
+                <pre className="font-mono text-xs text-foreground/70 whitespace-pre">
+                  {project.architecture.diagram}
+                </pre>
+              </div>
+            )}
           </section>
 
           {/* Code Snippet */}
