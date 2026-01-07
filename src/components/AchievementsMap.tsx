@@ -177,7 +177,7 @@ const AchievementsMap = () => {
           {activeLocation && (
             <div className="absolute bottom-4 left-4 right-4 z-[1000] bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 shadow-lg">
               <h4 className="font-bold text-sm mb-2">{activeLocation}</h4>
-              <p className="text-muted-foreground text-xs">
+              <p className="text-muted-foreground text-xs whitespace-pre-line">
                 {locations.find(l => l.name === activeLocation)?.achievement}
               </p>
             </div>
@@ -193,7 +193,7 @@ const AchievementsMap = () => {
               }}
             >
               <h4 className="font-bold text-sm mb-2">{hoveredLocation.name}</h4>
-              <p className="text-muted-foreground text-xs">{hoveredLocation.achievement}</p>
+              <p className="text-muted-foreground text-xs whitespace-pre-line">{hoveredLocation.achievement}</p>
             </div>
           )}
         </div>
