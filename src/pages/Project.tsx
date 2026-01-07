@@ -6,6 +6,8 @@ import ProjectNavigation from "@/components/ProjectNavigation";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
+import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
+
 // Project data with enhanced details
 const projectsData: Record<string, {
   title: string;
@@ -20,6 +22,7 @@ const projectsData: Record<string, {
   architecture: {
     description: string;
     diagram: string;
+    useCustomComponent?: boolean;
   };
   codeSnippet: {
     title: string;
@@ -31,148 +34,117 @@ const projectsData: Record<string, {
     url: string;
   }[];
 }> = {
-  "ai-food-ordering-agent": {
-    title: "AI-Powered Online Food Ordering Agent",
-    description: "An AI-powered food ordering agent that automates searching menus, deals, and placing orders for Glovo meals through a conversational, multi-agent system.",
-    fullDescription: "This project involves building an intelligent agent that leverages large language models to interact with the Glovo platform. The agent can understand user preferences, search for food items and their prices. It utilizes a multi-agent architecture where different specialized agents handle tasks such as menu parsing, deal-hunting, ensuring a seamless and efficient user experience.",
-    tags: ["Langgraph", "Python", "Docker"],
-    image: "/food-agent.png",
+  "ml-pipeline-orchestrator": {
+    title: "ML Pipeline Orchestrator",
+    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
+    fullDescription: "A comprehensive ML pipeline orchestration platform designed to streamline the entire machine learning lifecycle. This system handles everything from data ingestion and feature engineering to model training, validation, and deployment. Built with scalability in mind, it supports distributed training across multiple GPU nodes and includes sophisticated monitoring for model performance degradation.",
+    tags: ["Kubeflow", "Python", "Kubernetes"],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop",
     github: "#",
     live: "#",
     features: [
-      "Conversational interface for food ordering",
-      "Automated menu searching and deal finding",
-      "Multi-agent system for task specialization",
-
+      "Automated model retraining based on data drift detection",
+      "A/B testing framework for model comparison",
+      "One-click rollback to previous model versions",
+      "Real-time pipeline monitoring and alerting",
+      "Integration with major cloud providers (AWS, GCP, Azure)"
     ],
-    techStack: ["Python", "Docker", "Langgraph", "Gemini API", "Streamlit"],
+    techStack: ["Python", "Kubeflow", "Kubernetes", "Apache Airflow", "MLflow", "Docker", "Prometheus", "Grafana"],
     architecture: {
       description: "The system follows a microservices architecture with separate components for data ingestion, feature engineering, model training, and serving. Each component communicates through message queues for loose coupling and resilience.",
       diagram: `
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           USER INTERFACE LAYER                                  │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │                    Streamlit Chat Interface                               │  │
-│  │  • Natural language input                                                 │  │
-│  │  • Real-time conversation                                                 │  │
-│  │  • Order confirmation & checkout                                          │  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                        ORCHESTRATION LAYER                                      │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │                         LangGraph Workflow                                │  │
-│  │  ┌─────────────────┐         ┌─────────────────┐                         │  │
-│  │  │  State Manager  │         │  Flow Control   │                         │  │
-│  │  │  • Conversation │ ◄─────► │  • Routing      │                         │  │
-│  │  │  • User context │         │  • Agent coord. │                         │  │
-│  │  └─────────────────┘         └─────────────────┘                         │  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │                         LangChain Core                                    │  │
-│  │  • Prompt templates      • Chain execution      • LLM integration        │  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                          MULTI-AGENT SYSTEM                                     │
-│                                                                                 │
-│  ┌───────────────────────────────────────────────────────────────────────────┐  │
-│  │                       SUPERVISOR AGENT (Coordinator)                      │  │
-│  │  • Understands user intent                                                │  │
-│  │  • Routes requests to specialized agents                                  │  │
-│  │  • Manages conversation state & context                                   │  │
-│  │  • Synthesizes responses from multiple agents                             │  │
-│  └───────────────────────────────────────────────────────────────────────────┘  │
-│                                      │                                          │
-│          ┌───────────────────────────┴───────────────────────────┐             │
-│          │                                                       │             │
-│          ▼                                                       ▼             │
-│  ┌──────────────────────────────────┐      ┌──────────────────────────────────┐│
-│  │     RETRIEVAL AGENT              │      │     GENERATOR AGENT              ││
-│  │                                  │      │                                  ││
-│  │ • Vector search via ChromaDB     │      │ • Natural language responses     ││
-│  │ • Menu item matching             │      │ • Context-aware replies          ││
-│  │ • Restaurant filtering           │      │ • Format recommendations         ││
-│  │ • Semantic similarity search     │      │ • Order confirmations            ││
-│  │ • Multi-criteria filtering       │      │ • Conversational flow            ││
-│  │ • Price & dietary preferences    │      │ • Response synthesis             ││
-│  │                                  │      │                                  ││
-│  └────────┬─────────────────────────┘      └────────┬─────────────────────────┘│
-│           │                                         │                          │
-└───────────┼─────────────────────────────────────────┼──────────────────────────┘
-            │                                         │
-            ▼                                         ▼
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                       DATA & KNOWLEDGE LAYER                                    │
-│  ┌───────────────────────────────────┐  ┌───────────────────────────────────┐   │
-│  │      ChromaDB Vector Store        │  │      Glovo Data Source            │   │
-│  │  ┌─────────────────────────────┐  │  │  ┌─────────────────────────────┐  │   │
-│  │  │ • Menu embeddings           │  │  │  │ • Restaurant listings       │  │   │
-│  │  │ • Restaurant metadata       │  │  │  │ • Menu items & prices       │  │   │
-│  │  │ • Semantic search index     │  │  │  │ • Promotions & deals        │  │   │
-│  │  │ • Similarity matching       │  │  │  │ • Dietary information       │  │   │
-│  │  │ • Fast retrieval            │  │  │  │ • Availability status       │  │   │
-│  │  └─────────────────────────────┘  │  │  └─────────────────────────────┘  │   │
-│  └───────────────────────────────────┘  └───────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────────────┘
-                      `
+┌─────────────────────────────────────────────────────────────────┐
+│                        Data Sources                              │
+│    ┌──────────┐    ┌──────────┐    ┌──────────┐                 │
+│    │  S3/GCS  │    │ Kafka    │    │ Database │                 │
+│    └────┬─────┘    └────┬─────┘    └────┬─────┘                 │
+└─────────┼───────────────┼───────────────┼───────────────────────┘
+          │               │               │
+          ▼               ▼               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     Data Ingestion Layer                         │
+│    ┌──────────────────────────────────────────────────┐         │
+│    │            Apache Airflow DAGs                    │         │
+│    └──────────────────────┬───────────────────────────┘         │
+└───────────────────────────┼─────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Feature Engineering                           │
+│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
+│    │  Spark Jobs  │───▶│ Feature Store │───▶│  Validation  │     │
+│    └──────────────┘    └──────────────┘    └──────────────┘     │
+└─────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Training Pipeline                             │
+│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
+│    │   Kubeflow   │───▶│   MLflow     │───▶│  Model Reg   │     │
+│    │   Pipelines  │    │   Tracking   │    │              │     │
+│    └──────────────┘    └──────────────┘    └──────────────┘     │
+└─────────────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Serving Infrastructure                        │
+│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
+│    │  A/B Router  │───▶│  Model Pods  │───▶│  Monitoring  │     │
+│    └──────────────┘    └──────────────┘    └──────────────┘     │
+└─────────────────────────────────────────────────────────────────┘
+      `
     },
     codeSnippet: {
-      title: "Pipeline Definition",
+      title: "LangGraph Agent Workflow",
       language: "python",
-      code: `from kfp import dsl
-from kfp.components import create_component_from_func
+      code: `from langgraph.graph import StateGraph, END
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, AIMessage
 
-@dsl.pipeline(
-    name='ML Training Pipeline',
-    description='End-to-end ML pipeline with drift detection'
-)
-def ml_pipeline(
-    data_path: str,
-    model_name: str,
-    drift_threshold: float = 0.1
-):
-    # Data validation step
-    validate_op = validate_data(data_path)
+class AgentState(TypedDict):
+    messages: List[BaseMessage]
+    current_agent: str
+    context: Dict[str, Any]
+
+def create_food_ordering_graph():
+    graph = StateGraph(AgentState)
     
-    # Feature engineering
-    features_op = engineer_features(
-        validate_op.outputs['validated_data']
+    # Add nodes for each agent
+    graph.add_node("supervisor", supervisor_agent)
+    graph.add_node("retrieval", retrieval_agent)
+    graph.add_node("generator", generator_agent)
+    
+    # Define routing logic
+    graph.add_conditional_edges(
+        "supervisor",
+        route_to_agent,
+        {
+            "retrieval": "retrieval",
+            "generator": "generator",
+            "end": END
+        }
     )
     
-    # Drift detection
-    drift_op = detect_drift(
-        features_op.outputs['features'],
-        threshold=drift_threshold
-    )
+    # Connect agents back to supervisor
+    graph.add_edge("retrieval", "supervisor")
+    graph.add_edge("generator", "supervisor")
     
-    # Conditional training
-    with dsl.Condition(drift_op.outputs['drift_detected'] == True):
-        train_op = train_model(
-            features_op.outputs['features'],
-            model_name=model_name
-        )
-        
-        # Model validation
-        validate_model_op = validate_model(
-            train_op.outputs['model_artifact']
-        )
-        
-        # Deploy if validation passes
-        with dsl.Condition(validate_model_op.outputs['passed'] == True):
-            deploy_model(
-                train_op.outputs['model_artifact'],
-                model_name=model_name
-            )`
+    graph.set_entry_point("supervisor")
+    return graph.compile()
+
+def retrieval_agent(state: AgentState) -> AgentState:
+    query = state["messages"][-1].content
+    results = chroma_collection.query(
+        query_texts=[query],
+        n_results=5
+    )
+    state["context"]["menu_items"] = results
+    return state`
     },
     screenshots: [
-      { title: "Pipeline Dashboard", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
-      { title: "Training Metrics", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" },
-      { title: "Model Registry", url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop" }
+      { title: "Chat Interface", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
+      { title: "Menu Recommendations", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" },
+      { title: "Order Confirmation", url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop" }
     ]
   },
   "real-time-feature-store": {
@@ -711,11 +683,15 @@ const Project = () => {
             <p className="text-foreground/80 text-sm mb-6 max-w-3xl">
               {project.architecture.description}
             </p>
-            <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
-              <pre className="font-mono text-xs text-foreground/70 whitespace-pre">
-                {project.architecture.diagram}
-              </pre>
-            </div>
+            {slug === "ml-pipeline-orchestrator" ? (
+              <FoodOrderingArchitecture />
+            ) : (
+              <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
+                <pre className="font-mono text-xs text-foreground/70 whitespace-pre">
+                  {project.architecture.diagram}
+                </pre>
+              </div>
+            )}
           </section>
 
           {/* Code Snippet */}
