@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
+import SectionTabs from "@/components/SectionTabs";
 import AboutSection from "@/components/AboutSection";
 import DemoSection from "@/components/DemoSection";
 import ProjectsSection from "@/components/ProjectsSection";
@@ -48,10 +49,11 @@ const Index = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background">
-        <Navigation activeSection={activeSection} onSectionChange={setActiveSection} />
+        <Navigation />
         <PageTransition>
           <main>
             <HeroSection />
+            <SectionTabs activeSection={activeSection} onSectionChange={setActiveSection} />
             {renderSection()}
           </main>
         </PageTransition>
