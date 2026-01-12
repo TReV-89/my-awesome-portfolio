@@ -12,6 +12,7 @@ const tabs: { name: string; section: SectionType }[] = [
   { name: "Achievements", section: "achievements" },
   { name: "Publications", section: "publications" },
   { name: "Certifications", section: "certifications" },
+  { name: "Contact", section: "contact" },
 ];
 
 const SectionTabs = ({ activeSection, onSectionChange }: SectionTabsProps) => {
