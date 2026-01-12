@@ -34,117 +34,84 @@ const projectsData: Record<string, {
     url: string;
   }[];
 }> = {
-  "ml-pipeline-orchestrator": {
-    title: "ML Pipeline Orchestrator",
-    description: "End-to-end ML pipeline orchestration system with automated retraining, A/B testing, and rollback capabilities.",
-    fullDescription: "A comprehensive ML pipeline orchestration platform designed to streamline the entire machine learning lifecycle. This system handles everything from data ingestion and feature engineering to model training, validation, and deployment. Built with scalability in mind, it supports distributed training across multiple GPU nodes and includes sophisticated monitoring for model performance degradation.",
-    tags: ["Kubeflow", "Python", "Kubernetes"],
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop",
-    github: "#",
-    live: "#",
+  "ai-food-ordering-agent": {
+    title: "Online Food Ordering Agent",
+    description: "An AI-powered food ordering agent that automates searching menus, deals, and placing orders on Glovo through a conversational, multi-agent system.",
+    fullDescription: "This project involves the development of an AI-driven food ordering agent named 'Krustie' that leverages a multi-agent architecture to interact with users, search for restaurant menus, find deals, and place orders on the Glovo platform. The system utilizes LangGraph for orchestration and LangChain for core functionalities, enabling natural language interactions and seamless order processing. Key features include real-time menu retrieval, personalized recommendations, and order confirmation through a user-friendly chat interface.",
+    tags: ["Langgraph", "Python", "Docker"],
+    image: "/food-agent.png",
+    github: "https://github.com/TReV-89/food_ordering_agent_glovo",
     features: [
-      "Automated model retraining based on data drift detection",
-      "A/B testing framework for model comparison",
-      "One-click rollback to previous model versions",
-      "Real-time pipeline monitoring and alerting",
-      "Integration with major cloud providers (AWS, GCP, Azure)"
+      "Natural language chat interface for user interactions",
+      "Multi-agent system for information retrieval and order generation",
+      "Dietary, price and food preference handling",
     ],
-    techStack: ["Python", "Kubeflow", "Kubernetes", "Apache Airflow", "MLflow", "Docker", "Prometheus", "Grafana"],
+    techStack: ["Python", "Docker", "LangGraph", "LangChain", "Streamlit", "Gemini API"],
     architecture: {
-      description: "The system follows a microservices architecture with separate components for data ingestion, feature engineering, model training, and serving. Each component communicates through message queues for loose coupling and resilience.",
-      diagram: `
-┌─────────────────────────────────────────────────────────────────┐
-│                        Data Sources                              │
-│    ┌──────────┐    ┌──────────┐    ┌──────────┐                 │
-│    │  S3/GCS  │    │ Kafka    │    │ Database │                 │
-│    └────┬─────┘    └────┬─────┘    └────┬─────┘                 │
-└─────────┼───────────────┼───────────────┼───────────────────────┘
-          │               │               │
-          ▼               ▼               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     Data Ingestion Layer                         │
-│    ┌──────────────────────────────────────────────────┐         │
-│    │            Apache Airflow DAGs                    │         │
-│    └──────────────────────┬───────────────────────────┘         │
-└───────────────────────────┼─────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Feature Engineering                           │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  Spark Jobs  │───▶│ Feature Store │───▶│  Validation  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Training Pipeline                             │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │   Kubeflow   │───▶│   MLflow     │───▶│  Model Reg   │     │
-│    │   Pipelines  │    │   Tracking   │    │              │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Serving Infrastructure                        │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  A/B Router  │───▶│  Model Pods  │───▶│  Monitoring  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-      `
+      description: "Multi-agent architecture utilizing LangGraph to orchestrate interactions between retrieval and generator agents, enabling dynamic information flow and decision-making for food ordering tasks.",
+      diagram: "custom",
+      useCustomComponent: true
     },
     codeSnippet: {
-      title: "LangGraph Agent Workflow",
+      title: "Supervisor Agent Implementation",
       language: "python",
-      code: `from langgraph.graph import StateGraph, END
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, AIMessage
+      code: `from langgraph.graph import StateGraph
+from langgraph_supervisor import create_supervisor
+from langchain_core.messages import AIMessage
+from retrieval_agent import retrieval
+from generator_agent import generator
+from state_models import SupervisorState
+from initialize import llm
 
-class AgentState(TypedDict):
-    messages: List[BaseMessage]
-    current_agent: str
-    context: Dict[str, Any]
 
-def create_food_ordering_graph():
-    graph = StateGraph(AgentState)
-    
-    # Add nodes for each agent
-    graph.add_node("supervisor", supervisor_agent)
-    graph.add_node("retrieval", retrieval_agent)
-    graph.add_node("generator", generator_agent)
-    
-    # Define routing logic
-    graph.add_conditional_edges(
-        "supervisor",
-        route_to_agent,
-        {
-            "retrieval": "retrieval",
-            "generator": "generator",
-            "end": END
-        }
-    )
-    
-    # Connect agents back to supervisor
-    graph.add_edge("retrieval", "supervisor")
-    graph.add_edge("generator", "supervisor")
-    
-    graph.set_entry_point("supervisor")
-    return graph.compile()
+supervisor_graph: StateGraph = create_supervisor(
+    supervisor_name="supervisor",
+    model=llm,
+    prompt=(
+        """You are a sophisticated food ordering assistant called "Krustie" and supervisor, designed to provide users with a seamless and delightful experience. Your primary goal is to understand user requests and orchestrate the appropriate tools to fulfill them effectively.
 
-def retrieval_agent(state: AgentState) -> AgentState:
-    query = state["messages"][-1].content
-    results = chroma_collection.query(
-        query_texts=[query],
-        n_results=5
-    )
-    state["context"]["menu_items"] = results
-    return state`
+1. **Direct Assistance:** For general inquiries, clarifications, or non-data-dependent responses, engage with users directly as a helpful assistant. This includes asking for clarifications or providing general guidance.
+
+2. **Information Retrieval Flow:** When a user requests specific information about restaurants, menus, dishes, or other food-related data:
+   - ALWAYS use the 'retrieval' agent first
+   - ONLY after successful retrieval, always pass the information to the 'generator' agent. Never answer directly after successful retrieval.
+   - The 'generator' agent will then synthesize the information into a user-friendly response. You MUST use the output from the 'generator' agent to respond to the user.
+
+3. **Clarification:** If a user's request is ambiguous or lacks sufficient detail, engage them in a brief, clarifying conversation. For example, ask for:
+   - Preferred cuisine
+   - Price range
+   - Dietary restrictions
+
+4. **Error Handling:** If the 'retrieval' agent fails to find relevant information:
+   - Inform the user politely
+   - Offer alternative options
+   - Do NOT use the generator agent
+   - Handle the response directly as an assistant
+
+5. **Conversation Management:**
+   - Maintain context of previous interactions
+   - Provide personalized recommendations based on conversation history
+   - Keep track of user preferences for future interactions
+NEVER ask them about the restaurant name.
+Remember: ALWAYS USE the 'generator' agent's response to answer the user when you have successfully retrieved data through the 'retrieval' agent. For all other interactions, respond directly as an assistant.
+        """
+    ),
+    state_schema=SupervisorState,
+    agents=[generator, retrieval],
+)
+
+supervisor = supervisor_graph.compile()
+
+
+def process_messages(state: SupervisorState) -> AIMessage:
+    """Process the messages and return an AI response."""
+    return supervisor.invoke(
+        state,
+        config={"configurable": {"thread_id": state["thread_id"]}},
+    )`
     },
     screenshots: [
-      { title: "Chat Interface", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
-      { title: "Menu Recommendations", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" },
-      { title: "Order Confirmation", url: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=500&fit=crop" }
+      { title: "Chat Interface", url: "/Screenshot_food_agent.png" },      
     ]
   },
   "real-time-feature-store": {
@@ -683,7 +650,7 @@ const Project = () => {
             <p className="text-foreground/80 text-sm mb-6 max-w-3xl">
               {project.architecture.description}
             </p>
-            {slug === "ml-pipeline-orchestrator" ? (
+            {slug === "ai-food-ordering-agent" ? (
               <FoodOrderingArchitecture />
             ) : (
               <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
