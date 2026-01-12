@@ -40,7 +40,7 @@ const ProjectNavigation = () => {
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-2"
                 >
                   <ArrowLeft size={16} />
-                  Back to Home
+                  Back to Projects
                 </Link>
               </div>
             </div>
@@ -63,7 +63,7 @@ const ProjectNavigation = () => {
               className="flex items-center gap-2 px-4 py-2 bg-background/90 backdrop-blur-sm border border-border rounded-full shadow-lg hover:bg-secondary transition-colors duration-200"
             >
               <ArrowLeft size={16} />
-              <span className="font-mono text-sm">Home</span>
+              <span className="font-mono text-sm">Projects</span>
             </Link>
           </motion.div>
         )}
