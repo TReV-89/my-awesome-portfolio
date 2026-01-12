@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import SectionTabs from "@/components/SectionTabs";
@@ -18,6 +19,14 @@ export type SectionType = "about" | "demo" | "projects" | "achievements" | "publ
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<SectionType>("about");
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash.replace("#", "");
+    if (hash && ["about", "demo", "projects", "achievements", "publications", "certifications", "contact"].includes(hash)) {
+      setActiveSection(hash as SectionType);
+    }
+  }, [location.hash]);
 
   const renderSection = () => {
     switch (activeSection) {
