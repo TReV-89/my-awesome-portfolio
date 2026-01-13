@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8501:8501"
+      - "80:80"
     volumes:
       - ./CV:/app/CV
 volumes:

@@ -1,11 +1,9 @@
 streamlit
 python-dotenv
-langchain-google-genai
 langchain-community
 langchain-groq
 chromadb
 langchain-core
-google-generativeai
 pdfplumber
 langchain-classic
 pydantic
@@ -14,8 +12,6 @@ jupyter
 ipykernel
 unstructured
 networkx
-msoffcrypto-tool
-streamlit-folium
 torch == 2.2.0
 numpy<2.0.0
 transformers 
