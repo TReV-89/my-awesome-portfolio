@@ -49,13 +49,13 @@ const ProjectNavigation = () => {
               <Link to="/" className="font-mono text-sm font-medium tracking-tight">
                   applied.ml.engineer
                 </Link>
-                <Link
-                  to="/#projects"
+                <button
+                  onClick={handleBackToProjects}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-2"
                 >
                   <ArrowLeft size={16} />
                   Back to Projects
-                </Link>
+                </button>
               </div>
             </div>
           </motion.nav>
