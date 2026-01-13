@@ -10,31 +10,25 @@ interface Certification {
 
 const certifications: Certification[] = [
   {
-    name: "AWS Certified Machine Learning - Specialty",
-    issuer: "Amazon Web Services",
-    date: "2023",
-    credentialId: "ABC123XYZ",
-    link: "https://aws.amazon.com/certification/",
+    name: "LLM Course Unit 3: Fine-tuning Language Models",
+    issuer: "Hugging Face",
+    date: "July 2025",
+    credentialId: "TReV-89",
+    link: "",
   },
   {
-    name: "Google Cloud Professional Data Engineer",
-    issuer: "Google Cloud",
-    date: "2023",
-    credentialId: "GCP-DE-456",
-    link: "https://cloud.google.com/certification/",
+    name: "AI Agents Fundamentals",
+    issuer: "Hugging Face",
+    date: "July 2025",
+    credentialId: "TReV-89",
+    link: "",
   },
   {
-    name: "Kubernetes Administrator (CKA)",
-    issuer: "Cloud Native Computing Foundation",
-    date: "2022",
-    credentialId: "CKA-789",
-    link: "https://www.cncf.io/certification/cka/",
-  },
-  {
-    name: "TensorFlow Developer Certificate",
-    issuer: "Google",
-    date: "2022",
-    link: "https://www.tensorflow.org/certificate",
+    name: "HTML, CSS, and JavaScript for Web Developers",
+    issuer: "Coursera",
+    date: "August 2024",
+    credentialId: "",
+    link: "https://coursera.org/share/f7f88eef1c0e4c963f0bf8329bb0f5cd",
   },
 ];
 

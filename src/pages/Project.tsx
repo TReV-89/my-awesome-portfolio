@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
+import EBSchedulerArchitecture from "@/components/EBSchedulerArchitecture";
 
 // Project data with enhanced details
 const projectsData: Record<string, {
@@ -114,110 +115,132 @@ def process_messages(state: SupervisorState) -> AIMessage:
       { title: "Chat Interface", url: "/Screenshot_food_agent.png" },      
     ]
   },
-  "real-time-feature-store": {
-    title: "Real-time Feature Store",
-    description: "Low-latency feature serving infrastructure supporting both batch and streaming feature computation.",
-    fullDescription: "A high-performance feature store designed for real-time ML applications. This infrastructure enables sub-millisecond feature retrieval while maintaining consistency between online and offline feature values. The system supports both batch feature computation for training and streaming feature updates for real-time inference.",
-    tags: ["Redis", "Kafka", "Feast"],
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop",
-    github: "#",
-    live: "#",
+  "energy-consumption-based-charging-scheduler": {
+    title: "Charging Scheduling Framework Based on Energy Consumption Prediction for Kayoola Electric Buses",
+    description: "Optimized scheduling model for electric bus fleets using energy consumption predictions to minimize costs and battery degradation.",
+    fullDescription: "This project presents a comprehensive framework for scheduling the charging of electric bus fleets, leveraging energy consumption predictions to optimize operational efficiency. By integrating a Mixed-Integer Linear Programming (MILP) model with Gurobi optimization, the framework aims to minimize electricity costs and battery degradation while ensuring that buses are adequately charged for their routes. Key components include data-driven energy consumption forecasting, dynamic scheduling algorithms, and real-time adaptation to changing conditions such as electricity prices and bus schedules.",
+    tags: ["MILP", "Gurobi", "Python"],
+    image: "/iganga_station.jpg",
+    github: "https://github.com/TReV-89/kayoola_eb_scheduler_and_predictor",
+    live: "",
     features: [
-      "Sub-millisecond feature retrieval latency",
-      "Unified batch and streaming feature pipelines",
-      "Point-in-time correct feature joins",
-      "Feature versioning and lineage tracking",
-      "Automatic feature freshness monitoring"
+      "Data-driven energy consumption prediction using historical trip data",
+      "MILP-based charging schedule optimization minimizing costs and battery wear",
+      "Dynamic adaptation to real-time electricity pricing and bus schedules",
     ],
-    techStack: ["Redis", "Apache Kafka", "Feast", "Spark", "Python", "Go", "PostgreSQL"],
+    techStack: ["Gurobi", "Python", "Pandas", "NumPy", "scikit-learn", "Matplotlib", "MILP"],
     architecture: {
-      description: "Dual-path architecture separating batch and streaming pipelines while maintaining feature consistency through a unified registry and serving layer.",
-      diagram: `
-┌─────────────────────────────────────────────────────────────────┐
-│                      Feature Registry                            │
-│    ┌──────────────────────────────────────────────────────┐     │
-│    │  Feature Definitions  │  Schemas  │  Metadata        │     │
-│    └──────────────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-          │                                       │
-          ▼                                       ▼
-┌─────────────────────┐             ┌─────────────────────────────┐
-│   Batch Pipeline    │             │    Streaming Pipeline       │
-│  ┌───────────────┐  │             │  ┌───────────────────────┐  │
-│  │  Spark Jobs   │  │             │  │   Kafka Consumers     │  │
-│  └───────┬───────┘  │             │  └───────────┬───────────┘  │
-│          │          │             │              │              │
-│  ┌───────▼───────┐  │             │  ┌───────────▼───────────┐  │
-│  │  Data Lake    │  │             │  │   Stream Processor    │  │
-│  └───────┬───────┘  │             │  └───────────┬───────────┘  │
-└──────────┼──────────┘             └──────────────┼──────────────┘
-           │                                       │
-           ▼                                       ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                      Feature Store                               │
-│  ┌─────────────────────┐    ┌─────────────────────────────────┐ │
-│  │   Offline Store     │    │       Online Store              │ │
-│  │   (Data Lake)       │    │       (Redis Cluster)           │ │
-│  └─────────────────────┘    └─────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Feature Serving API                           │
-│    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐     │
-│    │  gRPC API    │    │  REST API    │    │  SDK Client  │     │
-│    └──────────────┘    └──────────────┘    └──────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
-      `
+      description: "Modular architecture combining data ingestion, energy consumption prediction, and MILP optimization to generate efficient charging schedules for electric bus fleets.",
+      diagram: "custom",
+      useCustomComponent: true
     },
     codeSnippet: {
-      title: "Feature Definition",
+      title: "MILP Model Constants for Charging Scheduler",
       language: "python",
-      code: `from feast import Entity, Feature, FeatureView, Field
-from feast.types import Float32, Int64, String
-from datetime import timedelta
+      code: `from amplpy import modules
+import gurobipy as gp
+import pyomo.environ as py
+import random as rd
+import math
 
-# Define entity
-user = Entity(
-    name="user_id",
-    description="User identifier"
-)
+#Define constants to be used to create sets
+num_of_trips = 14
+num_of_buses = 3
 
-# Define feature view for user behavior
-user_behavior_fv = FeatureView(
-    name="user_behavior_features",
-    entities=[user],
-    ttl=timedelta(days=1),
-    schema=[
-        Field(name="session_count_7d", dtype=Int64),
-        Field(name="avg_session_duration", dtype=Float32),
-        Field(name="last_active_category", dtype=String),
-        Field(name="purchase_frequency", dtype=Float32),
-        Field(name="lifetime_value", dtype=Float32),
-    ],
-    online=True,
-    source=user_behavior_source,
-    tags={"team": "ml-platform"},
-)
 
-# Retrieve features for inference
-def get_user_features(user_ids: list[str]):
-    feature_store = FeatureStore(repo_path=".")
-    
-    feature_vector = feature_store.get_online_features(
-        features=[
-            "user_behavior_features:session_count_7d",
-            "user_behavior_features:avg_session_duration",
-            "user_behavior_features:purchase_frequency",
-        ],
-        entity_rows=[{"user_id": uid} for uid in user_ids]
-    )
-    
-    return feature_vector.to_dict()`
+trip_start_times = {
+                    1:5.00,
+                    2:6.50,
+                    3:7.00,
+                    4:8.50,
+                    5:9.00,
+                    6:10.50,
+                    7:11.0,
+                    8:13.50,
+                    9:13.50,
+                    10:15.50,
+                    11:16.00,
+                    12:17.50,
+                    13:18.00,
+                    14:19.00}
+
+
+
+trip_end_times = {
+                    1:6.00,
+                    2:8.0,
+                    3:8.50,
+                    4:10.00,
+                    5:10.25,
+                    6:12.00,
+                    7:12.30,
+                    8:14.75,
+                    9:15.00,
+                    10:17.00,
+                    11:17.50,
+                    12:19.00,
+                    13:19.30,
+                    14:20.30}
+
+
+
+for i in trip_end_times:
+  trip_end_times[i] = round(trip_end_times[i]*60)
+
+for i in trip_start_times:
+  trip_start_times[i] = round(trip_start_times[i]*60)
+
+trip_times = {}
+for i in range(1,num_of_trips + 1):
+    trip_times[i] = trip_end_times[i] - trip_start_times[i]
+
+energy_consumption = {}
+for i in range(num_of_trips):
+  energy_consumption[i+1] = float(round(trip_predictions['Predicted_Energy_kWh'][i],1))
+next_day_energy_demand = round(trip_predictions['Predicted_Energy_kWh'].sum(),1)
+
+
+gamma_1 = -0.000409
+gamma_2 = -2.167
+gamma_3 = 0.00001408
+gamma_4 = 6.13
+
+# Create a concrete model
+model = py.ConcreteModel()
+
+# Define the sets of trips and buses using Set instead of RangeSet
+model.trips = py.Set(initialize=range(1, num_of_trips + 1))
+model.buses = py.Set(initialize=range(1, num_of_buses + 1))
+
+
+
+#Define Parameters (These will be fine tuned to get the lowest battery degradation)
+model.T_start = py.Param(model.trips, initialize=trip_start_times)
+model.T_end = py.Param(model.trips, initialize=trip_end_times)
+model.T_trip = py.Param(model.trips, initialize=trip_times)
+model.lambda_min = py.Param(initialize=30)
+model.lambda_max = py.Param(initialize=90)
+model.CB = py.Param(initialize=250)
+model.EC = py.Param(model.trips, initialize=energy_consumption)
+model.E_all = py.Param(initialize=next_day_energy_demand)
+model.gamma1 = py.Param(initialize=gamma_1)
+model.gamma2 = py.Param(initialize=gamma_2)
+model.gamma3 = py.Param(initialize=gamma_3)
+model.gamma4 = py.Param(initialize=gamma_4)
+
+
+# Define Decision Variables
+
+model.assigned_buses = py.Var(model.trips, model.buses, domain=py.Binary)
+model.is_charging = py.Var(model.trips, model.buses, domain=py.Binary)
+model.SOC = py.Var(model.trips,model.buses)
+model.E_charge_total = py.Var(domain=py.NonNegativeReals)
+model.E_rest = py.Var(within=py.NonNegativeReals)
+model.degradation = py.Var(bounds = (0,1),initialize = 0.1,within=py.NonNegativeReals)`
     },
     screenshots: [
-      { title: "Feature Catalog", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
-      { title: "Streaming Dashboard", url: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=500&fit=crop" }
+      { title: "Proposed Charging Schedule", url: "/charging-schedule.png" },
+      { title: "Annual Loss Of Different Schedules", url: "/annual-loss.png" }
     ]
   },
   "model-monitoring-dashboard": {
@@ -554,7 +577,7 @@ const Project = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>{project.title} | MLOps Portfolio</title>
+        <title>{project.title} | Trevor Tebaweswa Portfolio</title>
         <meta name="description" content={project.description} />
       </Helmet>
 
@@ -652,6 +675,8 @@ const Project = () => {
             </p>
             {slug === "ai-food-ordering-agent" ? (
               <FoodOrderingArchitecture />
+            ) : slug === "energy-consumption-based-charging-scheduler" ? (
+              <EBSchedulerArchitecture />
             ) : (
               <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
                 <pre className="font-mono text-xs text-foreground/70 whitespace-pre">

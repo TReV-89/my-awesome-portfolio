@@ -7,7 +7,7 @@ interface SectionTabsProps {
 
 const tabs: { name: string; section: SectionType }[] = [
   { name: "About", section: "about" },
-  { name: "Ask AI", section: "demo" },
+  { name: "Experience", section: "demo" },
   { name: "Projects", section: "projects" },
   { name: "Achievements", section: "achievements" },
   { name: "Publications", section: "publications" },

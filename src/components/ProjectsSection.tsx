@@ -11,7 +11,7 @@ const projects = [
     slug: "ai-food-ordering-agent",
   },
   {
-    title: "A Charging Scheduling Framework Based on Energy Consumption Prediction for Electric Buses",
+    title: "A Charging Scheduling Framework Based on Energy Consumption Prediction for Kayoola Electric Buses",
     description: "Optimized scheduling model for electric bus fleets using energy consumption predictions to minimize costs and battery degradation.",
     tags: ["MILP", "Gurobi", "Python"],
     image: "/iganga_station.jpg",

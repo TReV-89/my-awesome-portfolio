@@ -43,12 +43,12 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Applied AI Engineer | Portfolio</title>
+        <title>Trevor Tebaweswa - Portfolio</title>
         <meta 
           name="description" 
           content="Applied AI engineer specializing in building reliable machine learning infrastructure, ML pipelines, and production ML systems." 
         />
-        <meta name="keywords" content="MLOps, Machine Learning, DevOps, ML Infrastructure, Data Engineering" />
+        <meta name="keywords" content="Artificial Intelligence, Machine Learning, Uganda, Applied ML Engineer" />
       </Helmet>
       
       <div className="min-h-screen bg-background">
