@@ -9,6 +9,7 @@ import PageTransition from "@/components/PageTransition";
 import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
 import EBSchedulerArchitecture from "@/components/EBSchedulerArchitecture";
 import PeakDemandArchitecture from "@/components/PeakDemandArchitecture";
+import CitizenRagArchitecture from "@/components/CitizenRagArchitecture";
 import {
   Dialog,
   DialogContent,
@@ -287,34 +288,92 @@ test_predict = fitted_model.forecast(len(test_demand))
       { title: "SARIMAX Model Predictions", url: "/sarimax.png" }
     ]
   },
-  "gpu-cluster-manager": {
-    title: "GPU Cluster Manager",
-    description: "Resource allocation and scheduling system for distributed model training across GPU clusters.",
-    fullDescription: "An intelligent resource management system optimized for GPU workloads. This platform handles job scheduling, resource allocation, and cluster autoscaling for distributed deep learning training. It maximizes GPU utilization while ensuring fair resource distribution across teams and projects.",
-    tags: ["CUDA", "Slurm", "Ray"],
-    image: "",
-    github: "#",
-    live: "#",
+  "citizen-feedback-rag-system": {
+    title: "Citizen Feedback RAG System",
+    description: "A Retrieval-Augmented Generation system that utilizes Langchain and Sunflower, Uganda's first multilingual LLM,to answer queries based on transcriptions from local service centres like hospitals, police stations, etc in Uganda.",
+    fullDescription: "This project involves the development of a Retrieval-Augmented Generation (RAG) system designed to enhance citizen engagement by providing accurate and contextually relevant responses to queries based on transcriptions from local service centers in Uganda, such as hospitals and police stations. The system leverages Langchain for building the RAG architecture and integrates with Sunflower, Uganda's first multilingual large language model (LLM), to facilitate natural language understanding and generation. Key features include multilingual support, efficient information retrieval, and seamless integration with existing service center databases.",
+    tags: ["Langchain", "Sunflower API", "Python"],
+    image: "/RAG_SYSTEM.png",
+    github: "",
+    live: "",
     features: [
-      "Intelligent GPU job scheduling",
-      "Automatic cluster scaling based on demand",
-      "Multi-tenant resource quotas",
-      "Job preemption and priority queuing",
-      "Cost optimization recommendations"
+      "Retrieval-Augmented Generation architecture for enhanced query responses",
+      "Integration with Sunflower multilingual LLM for natural language understanding",
+      "Support for multiple local languages to cater to diverse citizen needs"
     ],
-    techStack: ["CUDA", "Slurm", "Ray", "Python", "Kubernetes", "NVIDIA DCGM", "Terraform"],
+    techStack: ["Python", "Langchain", "Sunflower API", "ChromaDB",],
     architecture: {
-      description: "Hierarchical scheduling system with a central controller managing multiple GPU node pools, each optimized for different workload types.",
-      diagram: ``
+      description: "Modular RAG system architecture combining data ingestion, retrieval, and generation components to provide accurate and contextually relevant responses to citizen queries.",
+      diagram: "custom",
+      useCustomComponent: true
     },
     codeSnippet: {
-      title: "Job Scheduler",
+      title: "Sunflower API Integration",
       language: "python",
-      code: ``
+      code: `import os
+import streamlit as st
+import time
+import pandas as pd
+from langchain_classic.schema import Document
+import requests
+
+import hashlib
+
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from dotenv import load_dotenv
+from sentence_transformers import SentenceTransformer
+from query_refiner import refine_query
+
+load_dotenv()
+embedding_model_name = os.getenv("EMBEDDING_MODEL")
+
+
+embedding_model = SentenceTransformer(embedding_model_name)
+
+
+def call_sunbird_api(messages_list, system_message):
+    """Call Sunbird API with messages"""
+    url = os.getenv("SUNBIRD_API_URL")
+    api_key = os.getenv("SUNFLOWER_API_KEY")
+
+    if not api_key:
+        st.error("SUNFLOWER_API_KEY not found in environment variables")
+        return None
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    # Convert LangChain messages to Sunbird format
+    api_messages = []
+    for msg in messages_list:
+        if isinstance(msg, HumanMessage):
+            api_messages.append({"role": "user", "content": msg.content})
+        elif isinstance(msg, AIMessage):
+            api_messages.append({"role": "assistant", "content": msg.content})
+
+    payload = {
+        "messages": api_messages,
+        "model_type": "qwen",
+        "temperature": 0.3,
+        "stream": False,
+        "system_message": system_message,
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error calling Sunbird API: {e}")
+        if hasattr(e.response, "text"):
+            st.error(f"Response: {e.response.text}")
+        return None`
     },
     screenshots: [
-      { title: "", url: "" },
-      { title: "", url: "" }
+      { title: "Citizen Feedback Rag System", url: "/Screenshot_citizen_rag.png" },
     ]
   }
 };
@@ -479,6 +538,8 @@ const Project = () => {
               <EBSchedulerArchitecture />
             ) : slug === "long-term-electricity-peak-demand-forecasting" ? (
               <PeakDemandArchitecture />
+            ) : slug === "citizen-feedback-rag-system" ? (
+              <CitizenRagArchitecture />
             ) : (
               <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
                 <pre className="font-mono text-xs text-foreground/70 whitespace-pre">
