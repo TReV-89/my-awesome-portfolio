@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import SectionTabs from "@/components/SectionTabs";
@@ -18,6 +19,21 @@ export type SectionType = "about" | "demo" | "projects" | "achievements" | "publ
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<SectionType>("about");
+  const location = useLocation();
+
+  useEffect(() => {
+    const hash = location.hash.replace("#", "");
+    if (hash && ["about", "demo", "projects", "achievements", "publications", "certifications", "contact"].includes(hash)) {
+      setActiveSection(hash as SectionType);
+      // Scroll to the section tabs after a short delay to ensure content is rendered
+      setTimeout(() => {
+        const tabsElement = document.getElementById("section-tabs");
+        if (tabsElement) {
+          tabsElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  }, [location.hash]);
 
   const renderSection = () => {
     switch (activeSection) {
