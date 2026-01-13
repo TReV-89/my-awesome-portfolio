@@ -17,7 +17,7 @@ const Navigation = () => {
         isScrolled ? "bg-background/90 backdrop-blur-sm border-b border-border" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 py-5">
+      <div className={`container mx-auto px-6 py-5 transition-all duration-300 ${isScrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="flex items-center justify-between">
           <span className="font-mono text-sm font-medium tracking-tight">
             applied.ml.engineer
