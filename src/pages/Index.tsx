@@ -29,7 +29,9 @@ const Index = () => {
       setTimeout(() => {
         const tabsElement = document.getElementById("section-tabs");
         if (tabsElement) {
-          tabsElement.scrollIntoView({ behavior: "smooth", block: "start" });
+          const offset = 100; // Account for navigation height
+          const elementPosition = tabsElement.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
         }
       }, 100);
     }
