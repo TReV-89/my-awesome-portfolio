@@ -11,7 +11,7 @@ const projects = [
     slug: "ai-food-ordering-agent",
   },
   {
-    title: "A Charging Scheduling Framework Based on Energy Consumption Prediction for Kayoola Electric Buses",
+    title: "Charging Scheduling Framework Based on Energy Consumption Prediction for Kayoola Electric Buses",
     description: "Optimized scheduling model for electric bus fleets using energy consumption predictions to minimize costs and battery degradation.",
     tags: ["MILP", "Gurobi", "Python"],
     image: "/iganga_station.jpg",
@@ -19,7 +19,7 @@ const projects = [
   },
   {
     title: "Long-term Electricity Peak Demand Forecasting",
-    description: "Holt-Winters exponential smoothing model for accurate long-term electricity peak demand forecasting.",
+    description: "Holt-Winters exponential smoothing and SARIMAX models for accurate long-term electricity peak demand forecasting.",
     tags: ["Time Series", "Forecasting", "Python"],
     image: "/peak_demand.png",
     slug: "long-term-electricity-peak-demand-forecasting",

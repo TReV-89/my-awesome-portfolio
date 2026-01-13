@@ -8,6 +8,7 @@ import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
 import EBSchedulerArchitecture from "@/components/EBSchedulerArchitecture";
+import PeakDemandArchitecture from "@/components/PeakDemandArchitecture";
 import {
   Dialog,
   DialogContent,
@@ -248,135 +249,42 @@ model.degradation = py.Var(bounds = (0,1),initialize = 0.1,within=py.NonNegative
       { title: "Annual Loss Of Different Schedules", url: "/annual-loss.png" }
     ]
   },
-  "model-monitoring-dashboard": {
-    title: "Model Monitoring Dashboard",
-    description: "Comprehensive monitoring solution tracking model drift, performance degradation, and data quality.",
-    fullDescription: "A real-time monitoring platform that provides visibility into production ML model performance. The dashboard tracks key metrics including prediction drift, feature distribution changes, and data quality issues. Alert systems notify teams of potential problems before they impact business outcomes.",
-    tags: ["Grafana", "Prometheus", "Python"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=800&fit=crop",
-    github: "#",
-    live: "#",
+  "long-term-electricity-peak-demand-forecasting": {
+    title: "Long-term Electricity Peak Demand Forecasting",
+    description: "Holt-Winters exponential smoothing and SARIMAX model for accurate long-term electricity peak demand forecasting",
+    fullDescription: "This project focuses on developing robust forecasting models to predict long-term electricity peak demand using historical consumption data. By implementing Holt-Winters exponential smoothing and SARIMAX models, the study aims to capture seasonal patterns and trends in electricity usage. The models are evaluated based on their accuracy and reliability in forecasting future peak demand, providing valuable insights for energy providers and grid operators to optimize resource allocation and ensure grid stability.",
+    tags: ["Time Series", "Forecasting", "Python"],
+    image: "/peak_demand.png",
+    github: "https://github.com/TReV-89/electricity_peak_demand_forecasting",
+    live: "",
     features: [
-      "Real-time model performance metrics",
-      "Statistical drift detection algorithms",
-      "Customizable alerting rules",
-      "Historical performance trending",
-      "Integration with incident management tools"
+      "Holt-Winters exponential smoothing for capturing seasonal trends",
+      "SARIMAX modeling for enhanced forecasting accuracy",
+      "Comprehensive model evaluation and comparison"
     ],
-    techStack: ["Grafana", "Prometheus", "Python", "InfluxDB", "React", "FastAPI", "scikit-learn"],
+    techStack: ["Python", "Pandas", "NumPy", "statsmodels", "Matplotlib", "Seaborn"],
     architecture: {
-      description: "Event-driven architecture collecting predictions and ground truth, computing drift metrics, and exposing them through a unified monitoring interface.",
-      diagram: `
-┌─────────────────────────────────────────────────────────────────┐
-│                    Model Serving Layer                           │
-│    ┌──────────────────────────────────────────────────────┐     │
-│    │  Prediction Endpoints (REST/gRPC)                     │     │
-│    └──────────────────────┬───────────────────────────────┘     │
-└───────────────────────────┼─────────────────────────────────────┘
-                            │ predictions + metadata
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Event Collection                              │
-│  ┌─────────────────┐    ┌─────────────────┐                     │
-│  │  Kafka Topic    │    │  Ground Truth   │                     │
-│  │  (predictions)  │    │  Collector      │                     │
-│  └────────┬────────┘    └────────┬────────┘                     │
-└───────────┼──────────────────────┼──────────────────────────────┘
-            │                      │
-            ▼                      ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Metrics Computation                           │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │  Drift Detector │  │  Performance    │  │  Data Quality   │  │
-│  │  (PSI, KS-test) │  │  Calculator     │  │  Checker        │  │
-│  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘  │
-└───────────┼────────────────────┼────────────────────┼───────────┘
-            │                    │                    │
-            ▼                    ▼                    ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Time Series Storage                           │
-│    ┌──────────────────────────────────────────────────────┐     │
-│    │         Prometheus / InfluxDB Cluster                 │     │
-│    └──────────────────────┬───────────────────────────────┘     │
-└───────────────────────────┼─────────────────────────────────────┘
-                            │
-            ┌───────────────┼───────────────┐
-            ▼               ▼               ▼
-┌───────────────┐  ┌───────────────┐  ┌───────────────────────────┐
-│   Grafana     │  │  Alert        │  │  API for Custom           │
-│   Dashboards  │  │  Manager      │  │  Integrations             │
-└───────────────┘  └───────────────┘  └───────────────────────────┘
-      `
+      description: "Modular architecture encompassing data preprocessing, model training, evaluation, and visualization components for effective long-term electricity peak demand forecasting.",
+      diagram: "custom",
+      useCustomComponent: true
     },
     codeSnippet: {
-      title: "Drift Detection",
+      title: "Holt-Winters Model Implementation",
       language: "python",
-      code: `import numpy as np
-from scipy import stats
-from prometheus_client import Gauge, start_http_server
+      code: `import matplotlib.pyplot as plt
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-# Prometheus metrics
-drift_score = Gauge(
-    'model_feature_drift_psi',
-    'Population Stability Index for feature drift',
-    ['model_name', 'feature_name']
-)
+# Fit the Holt-Winters model on training data
+model = ExponentialSmoothing(train_demand['T.C. Elektricity consumption (Gross Demand) Kwh'], trend='add', seasonal='add', seasonal_periods=12)
+fitted_model = model.fit()
 
-def calculate_psi(expected: np.ndarray, actual: np.ndarray, 
-                  buckets: int = 10) -> float:
-    """Calculate Population Stability Index."""
-    
-    # Create bucket boundaries from expected distribution
-    breakpoints = np.percentile(
-        expected, 
-        np.linspace(0, 100, buckets + 1)
-    )
-    
-    # Calculate frequencies
-    expected_freq = np.histogram(expected, breakpoints)[0]
-    actual_freq = np.histogram(actual, breakpoints)[0]
-    
-    # Normalize to percentages
-    expected_pct = expected_freq / len(expected)
-    actual_pct = actual_freq / len(actual)
-    
-    # Avoid division by zero
-    expected_pct = np.clip(expected_pct, 0.0001, None)
-    actual_pct = np.clip(actual_pct, 0.0001, None)
-    
-    # Calculate PSI
-    psi = np.sum(
-        (actual_pct - expected_pct) * 
-        np.log(actual_pct / expected_pct)
-    )
-    
-    return psi
-
-class DriftMonitor:
-    def __init__(self, model_name: str, baseline_data: dict):
-        self.model_name = model_name
-        self.baseline = baseline_data
-        
-    def check_drift(self, current_data: dict) -> dict:
-        results = {}
-        for feature, values in current_data.items():
-            psi = calculate_psi(
-                self.baseline[feature], 
-                np.array(values)
-            )
-            drift_score.labels(
-                model_name=self.model_name,
-                feature_name=feature
-            ).set(psi)
-            results[feature] = {
-                'psi': psi,
-                'drifted': psi > 0.2  # Threshold
-            }
-        return results`
+# Forecast future values
+test_predict = fitted_model.forecast(len(test_demand))
+     `
     },
     screenshots: [
-      { title: "Overview Dashboard", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" },
-      { title: "Drift Analysis", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop" }
+      { title: "Holt-Winters Model Predictions", url: "/holt.png" },
+      { title: "SARIMAX Model Predictions", url: "/sarimax.png" }
     ]
   },
   "gpu-cluster-manager": {
@@ -384,7 +292,7 @@ class DriftMonitor:
     description: "Resource allocation and scheduling system for distributed model training across GPU clusters.",
     fullDescription: "An intelligent resource management system optimized for GPU workloads. This platform handles job scheduling, resource allocation, and cluster autoscaling for distributed deep learning training. It maximizes GPU utilization while ensuring fair resource distribution across teams and projects.",
     tags: ["CUDA", "Slurm", "Ray"],
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=800&fit=crop",
+    image: "",
     github: "#",
     live: "#",
     features: [
@@ -397,130 +305,16 @@ class DriftMonitor:
     techStack: ["CUDA", "Slurm", "Ray", "Python", "Kubernetes", "NVIDIA DCGM", "Terraform"],
     architecture: {
       description: "Hierarchical scheduling system with a central controller managing multiple GPU node pools, each optimized for different workload types.",
-      diagram: `
-┌─────────────────────────────────────────────────────────────────┐
-│                    Job Submission Layer                          │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │  CLI Client     │  │  Web UI         │  │  SDK/API        │  │
-│  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘  │
-└───────────┼────────────────────┼────────────────────┼───────────┘
-            │                    │                    │
-            ▼                    ▼                    ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    Cluster Controller                            │
-│  ┌─────────────────────────────────────────────────────────────┐│
-│  │                    Job Queue Manager                         ││
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    ││
-│  │  │ Priority │  │ Standard │  │  Batch   │  │ Preempt  │    ││
-│  │  │  Queue   │  │  Queue   │  │  Queue   │  │  Queue   │    ││
-│  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘    ││
-│  └─────────────────────────────────────────────────────────────┘│
-│  ┌─────────────────────────────────────────────────────────────┐│
-│  │                    Resource Scheduler                        ││
-│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       ││
-│  │  │  Quota Mgr   │  │  Placement   │  │  Autoscaler  │       ││
-│  │  └──────────────┘  └──────────────┘  └──────────────┘       ││
-│  └─────────────────────────────────────────────────────────────┘│
-└─────────────────────────────────────────────────────────────────┘
-                            │
-            ┌───────────────┼───────────────┐
-            ▼               ▼               ▼
-┌───────────────┐  ┌───────────────┐  ┌───────────────────────────┐
-│  GPU Pool A   │  │  GPU Pool B   │  │  GPU Pool C               │
-│  (A100 x 32)  │  │  (V100 x 64)  │  │  (T4 x 128)               │
-│               │  │               │  │                           │
-│ ┌───┐ ┌───┐   │  │ ┌───┐ ┌───┐   │  │ ┌───┐ ┌───┐ ┌───┐ ┌───┐  │
-│ │GPU│ │GPU│...│  │ │GPU│ │GPU│...│  │ │GPU│ │GPU│ │GPU│ │GPU│  │
-│ └───┘ └───┘   │  │ └───┘ └───┘   │  │ └───┘ └───┘ └───┘ └───┘  │
-└───────────────┘  └───────────────┘  └───────────────────────────┘
-      `
+      diagram: ``
     },
     codeSnippet: {
       title: "Job Scheduler",
       language: "python",
-      code: `import ray
-from dataclasses import dataclass
-from typing import Optional
-from enum import Enum
-
-class Priority(Enum):
-    LOW = 0
-    NORMAL = 1
-    HIGH = 2
-    CRITICAL = 3
-
-@dataclass
-class GPUJobConfig:
-    name: str
-    gpu_count: int
-    gpu_memory_gb: int
-    priority: Priority = Priority.NORMAL
-    max_runtime_hours: int = 24
-    preemptible: bool = True
-
-class GPUScheduler:
-    def __init__(self, cluster_config: dict):
-        ray.init(address=cluster_config['ray_address'])
-        self.quota_manager = QuotaManager(cluster_config['quotas'])
-        self.pools = self._init_gpu_pools(cluster_config['pools'])
-        
-    def submit_job(
-        self, 
-        job_config: GPUJobConfig,
-        training_func: callable,
-        team_id: str
-    ) -> str:
-        # Check quota
-        if not self.quota_manager.can_allocate(
-            team_id, 
-            job_config.gpu_count
-        ):
-            raise QuotaExceededException(
-                f"Team {team_id} quota exceeded"
-            )
-        
-        # Find best placement
-        placement = self._find_optimal_placement(job_config)
-        
-        # Create Ray actor with GPU resources
-        @ray.remote(num_gpus=job_config.gpu_count)
-        class GPUWorker:
-            def run(self, func, *args, **kwargs):
-                return func(*args, **kwargs)
-        
-        # Submit to appropriate pool
-        worker = GPUWorker.options(
-            resources={placement.pool_name: 1},
-            max_retries=3
-        ).remote()
-        
-        job_id = worker.run.remote(training_func)
-        
-        self.quota_manager.allocate(
-            team_id, 
-            job_config.gpu_count,
-            job_id
-        )
-        
-        return job_id
-    
-    def _find_optimal_placement(
-        self, 
-        config: GPUJobConfig
-    ) -> Placement:
-        # Bin-packing algorithm for GPU allocation
-        for pool in sorted(
-            self.pools, 
-            key=lambda p: p.available_gpus,
-            reverse=True
-        ):
-            if pool.can_fit(config):
-                return Placement(pool_name=pool.name)
-        raise NoResourcesAvailable()`
+      code: ``
     },
     screenshots: [
-      { title: "Cluster Overview", url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=500&fit=crop" },
-      { title: "GPU Utilization", url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=500&fit=crop" }
+      { title: "", url: "" },
+      { title: "", url: "" }
     ]
   }
 };
@@ -683,6 +477,8 @@ const Project = () => {
               <FoodOrderingArchitecture />
             ) : slug === "energy-consumption-based-charging-scheduler" ? (
               <EBSchedulerArchitecture />
+            ) : slug === "long-term-electricity-peak-demand-forecasting" ? (
+              <PeakDemandArchitecture />
             ) : (
               <div className="border border-border bg-muted/30 p-6 overflow-x-auto">
                 <pre className="font-mono text-xs text-foreground/70 whitespace-pre">
