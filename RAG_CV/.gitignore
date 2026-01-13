@@ -1,0 +1,36 @@
+# Environment variables
+.env
+
+# Python virtual environment
+vtenv/
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ChromaDB data
+chroma_db_data/
+
+# Uploaded files
+SEMA_files_uploaded/
+
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Data files (if you don't want to push them)
+RAG_DATA/
+SEMA_DATA/
+SEMA_DATA_exports/
