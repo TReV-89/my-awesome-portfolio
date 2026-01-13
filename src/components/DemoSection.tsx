@@ -32,11 +32,13 @@ const DemoSection = () => {
         {/* Streamlit Embed */}
         <div className="border border-border bg-card">
           <iframe
-            src={"http://68.183.77.105"}
+            src={streamlitUrl}
             title="CV Chat Assistant"
             className="w-full h-[600px] grayscale hover:grayscale-0 transition-all duration-500"
             style={{ border: "none" }}
             allow="clipboard-write"
+            loading="eager"
+            sandbox="allow-same-origin allow-scripts allow-forms"
           />
         </div>
 
