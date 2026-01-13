@@ -25,6 +25,13 @@ const Index = () => {
     const hash = location.hash.replace("#", "");
     if (hash && ["about", "demo", "projects", "achievements", "publications", "certifications", "contact"].includes(hash)) {
       setActiveSection(hash as SectionType);
+      // Scroll to the section tabs after a short delay to ensure content is rendered
+      setTimeout(() => {
+        const tabsElement = document.getElementById("section-tabs");
+        if (tabsElement) {
+          tabsElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
     }
   }, [location.hash]);
 
