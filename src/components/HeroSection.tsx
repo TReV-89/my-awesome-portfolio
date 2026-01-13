@@ -29,7 +29,7 @@ const HeroSection = () => {
             <div className="w-64 h-80 md:w-72 md:h-96 lg:w-80 lg:h-[28rem] rounded-lg overflow-hidden border-2 border-border bg-muted shadow-lg">
               
               <img 
-                src="/images/IMG_7292.jpeg" 
+                src="/IMG_7292.jpeg" 
                 alt="Your Name" 
                 className="w-full h-full object-cover"
               />
