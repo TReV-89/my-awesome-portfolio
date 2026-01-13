@@ -1,0 +1,24 @@
+
+services:
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/.chromadb
+      - ./CV:/app/CV
+
+  frontend:
+    build: 
+      context: .
+      dockerfile: Frontend/Dockerfile
+    container_name: frontend
+    env_file:
+      - .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./CV:/app/CV
+volumes:
+  chroma_data:

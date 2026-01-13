@@ -10,7 +10,7 @@ const ProjectNavigation = () => {
 
   const handleBackToProjects = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("");
+    navigate("/#projects");
     setTimeout(() => {
       const tabsElement = document.getElementById("section-tabs");
       if (tabsElement) {
