@@ -48,13 +48,12 @@ def display_pdf(file_path):
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 
-# Get the absolute path to the project root (assuming structure: root/RAG_CV/Frontend/streamlit_ui.py)
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(current_dir)
-cv_dir = os.path.join(project_root, "CV")
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+# project_root = os.path.dirname(current_dir)
+cv_dir = "/app/CV"
 
 # Prioritize the specific file provided
-specific_file = "TREVOR SAAKA CURRICULUM VITAE.docx.pdf"
+specific_file = "TREVOR_SAAKA_CURRICULUM_VITAE.docx.pdf"
 cv_file_path = os.path.join(cv_dir, specific_file)
 
 # If specific file doesn't exist, fall back to dynamic search

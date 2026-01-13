@@ -126,7 +126,7 @@ def load_document(file_path, file_name):
         return None
 
 
-def save_uploaded_file(file, upload_dir="./RAG_CV/CV_uploaded"):
+def save_uploaded_file(file, upload_dir="/app/CV_uploaded"):
 
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)

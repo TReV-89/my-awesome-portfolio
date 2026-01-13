@@ -10,6 +10,7 @@ services:
       - ./CV:/app/CV
 
   frontend:
+    # image: trev8989/rag_cv-frontend:latest
     build: 
       context: .
       dockerfile: Frontend/Dockerfile
@@ -17,7 +18,7 @@ services:
     env_file:
       - .env
     ports:
-      - "80:80"
+      - "80:8o"
     volumes:
       - ./CV:/app/CV
 volumes:
