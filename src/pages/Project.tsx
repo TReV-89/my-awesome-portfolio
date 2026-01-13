@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
-import { Github, ExternalLink, Copy, Check } from "lucide-react";
+import { Github, ExternalLink, Copy, Check, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import ProjectNavigation from "@/components/ProjectNavigation";
 import Footer from "@/components/Footer";
@@ -8,6 +8,11 @@ import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
 import EBSchedulerArchitecture from "@/components/EBSchedulerArchitecture";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Project data with enhanced details
 const projectsData: Record<string, {
@@ -555,6 +560,7 @@ const CodeBlock = ({ code, language, title }: { code: string; language: string; 
 const Project = () => {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? projectsData[slug] : null;
+  const [selectedImage, setSelectedImage] = useState<{ title: string; url: string } | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -701,7 +707,11 @@ const Project = () => {
             <h2 className="font-mono text-sm text-muted-foreground mb-4">Screenshots</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {project.screenshots.map((screenshot, index) => (
-                <div key={index} className="border border-border overflow-hidden">
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(screenshot)}
+                  className="border border-border overflow-hidden text-left hover:border-primary/50 transition-colors cursor-pointer"
+                >
                   <img
                     src={screenshot.url}
                     alt={screenshot.title}
@@ -712,10 +722,37 @@ const Project = () => {
                       {screenshot.title}
                     </span>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </section>
+
+          {/* Image Lightbox Dialog */}
+          <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+            <DialogContent className="max-w-4xl w-full p-0 bg-background border-border">
+              <DialogTitle className="sr-only">
+                {selectedImage?.title || "Screenshot"}
+              </DialogTitle>
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute top-4 right-4 z-10 p-2 bg-background/80 backdrop-blur-sm rounded-full border border-border hover:bg-secondary transition-colors"
+              >
+                <X size={20} />
+              </button>
+              {selectedImage && (
+                <div className="p-4">
+                  <img
+                    src={selectedImage.url}
+                    alt={selectedImage.title}
+                    className="w-full h-auto max-h-[80vh] object-contain"
+                  />
+                  <p className="font-mono text-sm text-muted-foreground mt-4 text-center">
+                    {selectedImage.title}
+                  </p>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
 
           {/* Navigation to other projects */}
           <section className="pt-8 border-t border-border">
