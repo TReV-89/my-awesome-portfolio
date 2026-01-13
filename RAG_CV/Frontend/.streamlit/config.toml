@@ -1,6 +1,8 @@
 [server]
 port = 80
 cookieSecret = "dontforgottochangeme"
+enableXsrfProtection = false
+enableCORS = true
 
 [theme]
 primaryColor = "#FFFFFF"

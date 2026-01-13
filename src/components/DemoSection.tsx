@@ -1,8 +1,11 @@
 import { ExternalLink } from "lucide-react";
+import { useState } from "react";
 
 const DemoSection = () => {
   // Replace this with your actual Streamlit app URL
   const streamlitUrl = "http://68.183.77.105/";
+  const [isLoading, setIsLoading] = useState(true);
+
 
   return (
     <section id="demo" className="py-24 border-t border-border">
@@ -28,7 +31,7 @@ const DemoSection = () => {
             </a>
           </div>
         </div>
-
+  
         {/* Streamlit Embed */}
         <div className="border border-border bg-card">
           <iframe
@@ -37,6 +40,7 @@ const DemoSection = () => {
             className="w-full h-[600px] grayscale hover:grayscale-0 transition-all duration-500"
             style={{ border: "none" }}
             allow="clipboard-write"
+            onLoad ={() => setIsLoading(false)}
             loading="eager"
             sandbox="allow-same-origin allow-scripts allow-forms"
           />
