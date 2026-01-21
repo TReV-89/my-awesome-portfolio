@@ -16,7 +16,7 @@ COPY Frontend/.streamlit/ .streamlit/
 ENV PYTHONPATH=/app
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 8501
 
 # Run Streamlit on port 80
-CMD ["streamlit", "run", "streamlit_ui.py", "--server.port", "80", "--server.address", "0.0.0.0"]
+CMD ["streamlit", "run", "streamlit_ui.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
