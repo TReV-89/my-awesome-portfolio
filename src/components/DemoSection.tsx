@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const DemoSection = () => {
   // Replace this with your actual Streamlit app URL
-  const streamlitUrl = "http://68.183.77.105/";
+  const streamlitUrl = "https://ragcv.page/";
   const [isLoading, setIsLoading] = useState(true);
 
 
