@@ -3,22 +3,16 @@ import { useState } from "react";
 
 const experience = [
   {
-    role: "Applied ML Engineer",
+    role: "Machine Learning Fellow",
     company: "Sunbird AI",
-    period: "2023 - Present",
-    description: "Building production ML systems for African languages and climate applications.",
+    period: "July 2025 - Present",
+    description: "Improved Uganda's first multilingual LLM (Sunflower) factuality by 15% via reinforcement learning and fine-tuned medical LLMs for offline sexual health access across 5+ African countries.",
   },
   {
-    role: "ML Engineer Intern",
-    company: "Sunbird AI",
-    period: "2022 - 2023",
-    description: "Developed NLP models and data pipelines for low-resource languages.",
-  },
-  {
-    role: "Research Assistant",
-    company: "Makerere University",
-    period: "2021 - 2022",
-    description: "Conducted research on machine learning applications for agriculture.",
+    role: "Research Associate I",
+    company: "Kiira Motors Corporation",
+    period: "March 2025 - July 2025",
+    description: "Built an energy consumption prediction model (91.73% accuracy) and charging algorithm that cut battery degradation costs by 33% for E-bus Xpress.",
   },
 ];
 
@@ -33,7 +27,7 @@ const DemoSection = () => {
       <div className="container mx-auto px-6">
         {/* Experience Timeline */}
         <div className="max-w-2xl mb-16">
-          <p className="font-mono text-sm text-muted-foreground mb-6">Experience</p>
+          <p className="font-mono text-sm text-muted-foreground mb-6">Professional Experience</p>
           <div className="relative">
             {/* Timeline line */}
             <div className="absolute left-[7px] top-2 bottom-2 w-px bg-border" />
