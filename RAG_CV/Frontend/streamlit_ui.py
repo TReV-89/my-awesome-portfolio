@@ -102,7 +102,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",  # This makes the sidebar hidden by default
 )  # Optional: Makes the app wider to accommodate side-by-side view better
 
-st.title("TREVOR TEBAWESWA CV RAG SYSTEM")
+st.title("TREVOR TEBAWESWA CV ASSISTANT 📄🤖")
 col1, col2 = st.columns([1, 1])
 
 with col1:
