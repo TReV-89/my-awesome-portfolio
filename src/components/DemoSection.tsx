@@ -18,7 +18,7 @@ const experience = [
 
 const DemoSection = () => {
   // Replace this with your actual Streamlit app URL
-  const streamlitUrl = "https://ragcv.page/";
+  const streamlitUrl = "https://app.trevteb.dev/";
   const [isLoading, setIsLoading] = useState(true);
 
 
