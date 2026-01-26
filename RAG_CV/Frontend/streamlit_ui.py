@@ -48,8 +48,6 @@ def display_pdf(file_path):
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-# project_root = os.path.dirname(current_dir)
 cv_dir = "/app/CV"
 
 # Prioritize the specific file provided
@@ -72,12 +70,6 @@ else:
     file = LocalFile(cv_file_path)
 
 
-# To this:
-# chroma_host = os.getenv("CHROMA_HOST", "https://sema-rag-database.onrender.com")
-# chroma_port = int(os.getenv("CHROMA_PORT", "443"))
-# use_ssl = os.getenv("CHROMA_SSL", "true").lower() == "true"
-
-# client = chromadb.HttpClient(host=chroma_host, port=chroma_port, ssl=use_ssl)
 client = chromadb.PersistentClient(path="./RAG_CV/chroma_db_data")
 
 if "rag_collection" not in st.session_state:
@@ -155,9 +147,10 @@ with col2:
     st.subheader("Chat Assistant")
     with st.container(height=700):
         display_chat_messages()
-if message := st.chat_input("Type your message here..."):
+if message := st.chat_input("Ask about me..."):
     st.session_state.messages.append(HumanMessage(content=message))
-    response = generate_response(message, st.session_state.rag_collection, llm)
+    with st.spinner("Generating response..."):
+        response = generate_response(message, st.session_state.rag_collection, llm)
     st.rerun()
 
 with st.sidebar:
