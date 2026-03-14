@@ -24,7 +24,7 @@ const Index = () => {
 
   useEffect(() => {
     const hash = location.hash.replace("#", "");
-    if (hash && ["about", "demo", "projects", "achievements", "publications", "certifications", "contact"].includes(hash)) {
+    if (hash && ["about", "demo", "projects", "achievements", "publications", "certifications", "podcasts", "contact"].includes(hash)) {
       setActiveSection(hash as SectionType);
       // Scroll to the section tabs after a short delay to ensure content is rendered
       setTimeout(() => {
