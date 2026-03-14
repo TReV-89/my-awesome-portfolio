@@ -10,6 +10,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import AchievementsMap from "@/components/AchievementsMap";
 import PublicationsSection from "@/components/PublicationsSection";
 import CertificationsSection from "@/components/CertificationsSection";
+import PodcastsSection from "@/components/PodcastsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
