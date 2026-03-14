@@ -16,7 +16,7 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 
-export type SectionType = "about" | "demo" | "projects" | "achievements" | "publications" | "certifications" | "contact";
+export type SectionType = "about" | "demo" | "projects" | "achievements" | "publications" | "certifications" | "podcasts" | "contact";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<SectionType>("about");
