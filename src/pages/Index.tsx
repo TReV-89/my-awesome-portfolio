@@ -52,6 +52,8 @@ const Index = () => {
         return <PublicationsSection />;
       case "certifications":
         return <CertificationsSection />;
+      case "podcasts":
+        return <PodcastsSection />;
       case "contact":
         return <ContactSection />;
       default:
