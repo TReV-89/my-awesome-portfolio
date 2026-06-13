@@ -7,14 +7,13 @@ const AboutSection = () => {
           
           <div className="space-y-6">
             <p className="text-lg leading-relaxed">
-              I'm a passionate Applied ML Engineer with an electrical engineering background dedicated to building scalable machine learning 
-              solutions that drive real business value.
+              I'm a passionate AI Research Engineer with an electrical engineering background, dedicated to advancing intelligent systems through rigorous research and practical innovation.
+
             </p>
             
             <p className="text-muted-foreground leading-relaxed">
-              My work focuses on translating complex algorithms into production-ready systems. 
-              I specialize in designing robust ML pipelines, optimizing model inference, and 
-              deploying intelligent applications at scale.
+             My work focuses on developing and evaluating machine learning systems for low-resource and underserved environments, bridging the gap between AI research and real-world deployment. I am particularly interested in building reliable AI systems that perform effectively despite limited data, computational constraints, and linguistic diversity. My research interests include AI safety, model alignment, reasoning, and agentic systems, with a focus on ensuring that advanced AI technologies are robust, trustworthy, and accessible within African contexts. I am committed to translating cutting-edge research into solutions that address local challenges and create meaningful societal impact.
+
             </p>
 
             <div className="flex flex-wrap gap-6 pt-4">

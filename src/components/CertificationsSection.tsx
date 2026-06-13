@@ -30,6 +30,13 @@ const certifications: Certification[] = [
     credentialId: "",
     link: "https://coursera.org/share/f7f88eef1c0e4c963f0bf8329bb0f5cd",
   },
+   {
+    name: "Technical AI Safety",
+    issuer: "BlueDot Impact",
+    date: "May 2026",
+    credentialId: "recIRq6jr2iHOD3hY",
+    link: "https://bluedot.org/certification?id=recIRq6jr2iHOD3hY&utm_campaign=109&utm_content=863&utm_source=bluedot-email",
+  },
 ];
 
 const CertificationsSection = () => {

@@ -8,7 +8,7 @@ const HeroSection = () => {
           {/* Text Content */}
           <div className="flex-1 max-w-xl text-center lg:text-left">
             <p className="font-mono text-sm text-muted-foreground mb-4 animate-fade-in">
-              Applied ML Engineer
+              AI Research Engineer
             </p>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight mb-4 animate-slide-up leading-tight">
@@ -16,12 +16,11 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-xl md:text-2xl text-muted-foreground mb-6 animate-slide-up font-light" style={{ animationDelay: "0.05s" }}>
-              Engineering scalable AI solutions for real-world impact
+              Advancing AI through research and real-world deployment
             </p>
 
             <p className="text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed animate-slide-up" style={{ animationDelay: "0.1s" }}>
-              I bridge the gap between research and production, transforming machine learning models into reliable, high-performance applications.
-            </p>
+                I bridge the gap between cutting-edge AI research and practical applications, developing intelligent systems that are both innovative and impactful.            </p>
           </div>
 
           {/* Profile Photo - Rectangular Frame */}

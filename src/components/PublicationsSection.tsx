@@ -23,6 +23,13 @@ const publications: Publication[] = [
     link: "https://arxiv.org/abs/2510.07203",
     abstract: "There are more than 2000 living languages in Africa, most of which have been bypassed by advances in language technology. Current leading LLMs exhibit strong performance on a number of the most common languages (e.g. Swahili or Yoruba), but prioritise support for the languages with the most speakers first, resulting in piecemeal ability across disparate languages. We contend that a regionally focussed approach is more efficient, and present a case study for Uganda, a country with high linguistic diversity. We describe the development of Sunflower 14B and 32B, a pair of models based on Qwen 3 with state of the art comprehension in the majority of all Ugandan languages. These models are open source and can be used to reduce language barriers in a number of important practical applications.",
   },
+  {
+    title: "SunEcho: An Optimized Deep Learning Model for Real-Time Urban Environmental Sound Classification",
+    authors: "Trevor Saaka, Solomon Nsumba, Joel Muhanguzi, Engineer Bainomugisha, Ernest Mwebaze, John Quinn",
+    year: 2026,
+    link: "https://www.researchsquare.com/article/rs-8739067/v1",
+    abstract: "Noise pollution represents a growing public health crisis, with 466 million people worldwide experiencing disabling hearing loss in 2019, projected to reach 700 million by 2050. Approximately 80% of affected individuals reside in low- and middle-income countries, where limited capacity to identify and monitor noise sources exacerbates the problem. This paper presents an optimized urban noise classification system designed for deployment on resource-constrained edge devices to enable continuous environmental monitoring. We investigated four convolutional neural network architectures—SunEcho, Spec-CNN, AlexNet, and LeNet-5—using the Sunbird/urban-noise-uganda-61k dataset with two input representations: log-mel spectrograms and YAMNet embeddings. Models were evaluated under fine-grained (19-class) and categorical (6-class) taxonomies. Spectrogram-based inputs consistently outperformed embeddings across all architectures, with the custom SunEcho model achieving optimal performance: 89% categorical accuracy and 81% fine-grained validation accuracy. The system provides city authorities in developing regions with an accessible, deployable tool for evidence-based noise source identification and mitigation strategies to improve public health outcomes.",
+  },
 ];
 
 const PublicationsSection = () => {
