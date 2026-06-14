@@ -5,14 +5,21 @@ const experience = [
   {
     role: "Machine Learning Fellow",
     company: "Sunbird AI",
-    period: "July 2025 - Present",
-    description: "Improved Uganda's first multilingual LLM (Sunflower) factuality by 15% via reinforcement learning and fine-tuned medical LLMs for offline sexual health access across 5+ African countries.",
+    period: "July 2025 - June 2026",
+    achievements: [
+      "Applied GRPO reinforcement learning on Sunflower (Uganda's first multilingual LLM), gaining 15%+ factuality, 10%+ instruction-following, and reduced model instability",
+      "Fine-tuned medical LLM adapters for the HASH project with 15%+ benchmark gains, deployed offline-first to deliver sexual health info to youth across 5 African countries",
+      "Generated synthetic multilingual datasets for 10+ low-resource Ugandan languages to support Sunflower's fine-tuning and RL pipeline",
+    ],
   },
   {
     role: "Research Associate I",
     company: "Kiira Motors Corporation",
     period: "March 2025 - July 2025",
-    description: "Built an energy consumption prediction model (91.73% accuracy) and charging algorithm that cut battery degradation costs by 33% for E-bus Xpress.",
+    achievements: [
+      "Built energy consumption prediction model with 91.73% accuracy",
+      "Designed charging algorithm that cut battery degradation costs by 33% for E-bus Xpress",
+    ],
   },
 ];
 
@@ -49,7 +56,14 @@ const DemoSection = () => {
                       </div>
                       <span className="font-mono text-xs text-muted-foreground">{exp.period}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">{exp.description}</p>
+                    <ul className="mt-1 space-y-1">
+                      {exp.achievements.map((item, i) => (
+                        <li key={i} className="text-sm text-muted-foreground flex gap-2">
+                          <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-muted-foreground" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               ))}
