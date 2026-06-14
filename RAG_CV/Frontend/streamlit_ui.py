@@ -86,7 +86,7 @@ if "llm" not in st.session_state:
 
     llm = ChatGroq(
         model=groq_model,  # Fast and capable
-        temperature=0.7,
+        temperature=0.5,
         api_key=groq_api_key,
     )
     st.session_state.llm = llm
@@ -99,21 +99,100 @@ handle_file_upload(file, st.session_state.rag_collection)
 
 st.set_page_config(
     layout="wide",
-    initial_sidebar_state="expanded",  # This makes the sidebar hidden by default
-)  # Optional: Makes the app wider to accommodate side-by-side view better
+    initial_sidebar_state="expanded",
+)
 
-st.title("TREVOR TEBAWESWA CV ASSISTANT 📄🤖")
+st.markdown("""
+<style>
+    /* Base background */
+    .stApp {
+        background-color: #0a0a0a;
+        color: #e5e5e5;
+    }
+
+    /* Main content area */
+    .block-container {
+        padding-top: 2rem;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #111111;
+        border-right: 1px solid #222222;
+    }
+
+    /* Hide default header */
+    header[data-testid="stHeader"] {
+        background: transparent;
+    }
+
+    /* Title */
+    h1, h2, h3 {
+        color: #ffffff !important;
+        font-weight: 300 !important;
+        letter-spacing: 0.05em;
+    }
+
+    /* Chat messages */
+    [data-testid="stChatMessage"] {
+        background-color: #111111 !important;
+        border: 1px solid #1e1e1e !important;
+        border-radius: 4px !important;
+        margin-bottom: 8px;
+    }
+
+    /* Chat input */
+    [data-testid="stChatInput"] textarea {
+        background-color: #111111 !important;
+        border: 1px solid #2a2a2a !important;
+        color: #e5e5e5 !important;
+        border-radius: 4px !important;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        background-color: #1a1a1a !important;
+        color: #e5e5e5 !important;
+        border: 1px solid #2a2a2a !important;
+        border-radius: 4px !important;
+        font-size: 0.8rem;
+    }
+    .stButton > button:hover {
+        border-color: #555555 !important;
+        color: #ffffff !important;
+    }
+
+    /* Download button */
+    .stDownloadButton > button {
+        background-color: #1a1a1a !important;
+        color: #e5e5e5 !important;
+        border: 1px solid #2a2a2a !important;
+        border-radius: 4px !important;
+        width: 100%;
+    }
+
+    /* Spinner */
+    .stSpinner > div {
+        border-top-color: #555555 !important;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+</style>
+""", unsafe_allow_html=True)
+
+st.title("Trevor Tebaweswa — CV Assistant")
 col1, col2 = st.columns([1, 1])
 
 with col1:
     if file:
-        # Initialize page number in session state
         if "pdf_page" not in st.session_state:
             st.session_state.pdf_page = 0
 
         total_pages = get_pdf_page_count(file.path)
 
-        # Navigation controls
         nav_col1, nav_col2, nav_col3 = st.columns([1, 2, 1])
 
         with nav_col1:
@@ -125,7 +204,7 @@ with col1:
 
         with nav_col2:
             st.markdown(
-                f"<div style='text-align: center; padding-top: 5px;'>Page {st.session_state.pdf_page + 1} of {total_pages}</div>",
+                f"<div style='text-align: center; padding-top: 5px; font-size: 0.8rem; color: #888;'>Page {st.session_state.pdf_page + 1} of {total_pages}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -138,20 +217,19 @@ with col1:
                 st.session_state.pdf_page += 1
                 st.rerun()
 
-        # Display the current page image
         image = get_pdf_page_image(file.path, st.session_state.pdf_page)
         if image:
             st.image(image, width="content")
 
 with col2:
     st.subheader("Chat Assistant")
-    with st.container(height=700):
+    with st.container(height=620):
         display_chat_messages()
-if message := st.chat_input("Ask about me..."):
-    st.session_state.messages.append(HumanMessage(content=message))
-    with st.spinner("Generating response..."):
-        response = generate_response(message, st.session_state.rag_collection, llm)
-    st.rerun()
+    if message := st.chat_input("Ask about my experience..."):
+        st.session_state.messages.append(HumanMessage(content=message))
+        with st.spinner("Thinking..."):
+            response = generate_response(message, st.session_state.rag_collection, llm)
+        st.rerun()
 
 with st.sidebar:
     st.header("Controls")
