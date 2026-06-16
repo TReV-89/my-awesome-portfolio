@@ -365,5 +365,69 @@ def call_sunbird_api(messages_list, system_message):
     screenshots: [
       { title: "Citizen Feedback Rag System", url: "/Screenshot_citizen_rag.png" },
     ]
+  },
+  "venture-studio-validation-system": {
+    title: "Venture Studio Validation System",
+    description: "An AI-powered venture validation platform that combines LLM-driven multi-agent analysis with a machine-learning success-prediction model to help venture studios and founders evaluate early-stage startup ideas quickly and consistently.",
+    fullDescription: "Pinecone VVS is a dual-engine venture validation platform built for venture studios and accelerators that need to triage high volumes of incoming startup ideas. Manual due diligence is slow, inconsistent across reviewers, and expensive. VVS automates both first-pass and deep-dive evaluation so studios can focus human attention only on high-signal opportunities, while giving founders honest, structured feedback before they pitch. The platform offers three core modes: a Quick Score engine that delivers a calibrated verdict in under 30 seconds; a Full Validation pipeline powered by six specialized AI agents that each own one dimension of diligence (problem validation, customer signals, bottom-up market sizing, competitive white-space mapping, business model analysis, and synthesis); and a separately trained XGBoost success-prediction model that estimates a venture's statistical probability of success based on historical startup outcome data. All agent outputs are persisted per case for full auditability, and every agent receives only the minimal, high-signal context it needs to control cost and improve focus.",
+    tags: ["Agentic Workflows", "Typescript", "Python", "Langchain", "Firebase", "XGBoost"],
+    image: "/Screenshot_pinecone.png",
+    github: "",
+    live: "",
+    features: [
+      "Quick Score engine delivering structured verdicts in under 30 seconds across calibrated investment dimensions",
+      "Full Validation multi-agent pipeline with six specialist agents covering problem, customer, market, competition, business model, and synthesis",
+      "Predictive ML layer using an XGBoost classifier trained on historical startup outcomes to estimate fail / operating / success probabilities",
+      "Case and pipeline management with document attachments, activity history, and queryable conversation memory",
+      "Founder-facing public funnel for instant scoring, deeper validation requests, and qualified lead routing",
+      "Live web research integration and document parsing to ground agent outputs in current, real-world context",
+    ],
+    techStack: ["React", "TypeScript", "Vite", "shadcn/ui", "Tailwind CSS", "Firebase", "Firestore", "Cloud Functions", "LangChain", "XGBoost", "scikit-learn", "pandas"],
+    architecture: {
+      description: "A dual-engine architecture combining qualitative LLM agent reasoning with quantitative ML prediction. Inputs flow into either the Quick Score engine or the Full Validation pipeline; agent outputs are persisted for auditability; the predictive layer runs in parallel to provide a data-driven complement to qualitative scores.",
+      diagram: "custom",
+      component: VSArchitecture,
+    },
+    codeSnippet: {
+      title: "XGBoost Success Prediction Pipeline",
+      language: "python",
+      code: `import xgboost as xgb
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, MultiLabelBinarizer
+import pandas as pd
+
+# Preprocessing: numerical scaling + categorical one-hot + multi-label industries
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", StandardScaler(), numerical_features),
+        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features),
+        ("mlb", MultiLabelBinarizer(), industry_features),
+    ]
+)
+
+# XGBoost multi-class classifier with early stopping
+classifier = xgb.XGBClassifier(
+    objective="multi:softprob",
+    num_class=3,
+    eval_metric="mlogloss",
+    early_stopping_rounds=20,
+    n_estimators=1000,
+)
+
+# Unified inference pipeline: preprocessor + best-iteration booster
+pipeline = Pipeline([
+    ("preprocess", preprocessor),
+    ("classifier", classifier),
+])
+
+pipeline.fit(X_train, y_train, classifier__eval_set=[(X_val, y_val)])
+
+# Deployable artifact: preprocessing + truncated booster at best iteration
+# Verified to match manual step-by-step inference with zero drift`
+    },
+    screenshots: [
+      { title: "Venture Studio Validation System", url: "/Screenshot_pinecone.png" },
+    ]
   }
 };
