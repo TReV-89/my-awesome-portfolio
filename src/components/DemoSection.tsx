@@ -103,7 +103,7 @@ const DemoSection = () => {
             allow="clipboard-write"
             onLoad ={() => setIsLoading(false)}
             loading="eager"
-            sandbox="allow-same-origin allow-scripts allow-forms"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-downloads allow-popups"
           />
         </div>
 
