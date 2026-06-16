@@ -47,7 +47,7 @@ const ProjectNavigation = () => {
             <div className="container mx-auto px-6 py-5">
               <div className="flex items-center justify-between">
               <Link to="/" className="font-mono text-sm font-medium tracking-tight">
-                  applied.ml.engineer
+                  ai.research.engineer
                 </Link>
                 <button
                   onClick={handleBackToProjects}

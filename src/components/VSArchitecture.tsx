@@ -233,11 +233,11 @@ const VSArchitecture = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 shadow-xl border border-gray-600">
             <h4 className="text-white font-bold mb-2">Frontend & UI</h4>
-            <p className="text-gray-300 text-sm">React • TypeScript • Vite • shadcn/ui • Tailwind CSS • Framer Motion</p>
+            <p className="text-gray-300 text-sm">React • TypeScript • Tailwind CSS • Framer Motion</p>
           </div>
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 shadow-xl border border-gray-600">
             <h4 className="text-white font-bold mb-2">Backend & Infra</h4>
-            <p className="text-gray-300 text-sm">Firebase • Firestore • Auth • Cloud Storage • Cloud Functions v2</p>
+            <p className="text-gray-300 text-sm">Firebase • Firestore • Auth • Cloud Storage</p>
           </div>
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 shadow-xl border border-gray-600">
             <h4 className="text-white font-bold mb-2">AI & ML</h4>

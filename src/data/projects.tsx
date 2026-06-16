@@ -369,7 +369,7 @@ def call_sunbird_api(messages_list, system_message):
   "venture-studio-validation-system": {
     title: "Venture Studio Validation System",
     description: "An AI-powered venture validation platform that combines LLM-driven multi-agent analysis with a machine-learning success-prediction model to help venture studios and founders evaluate early-stage startup ideas quickly and consistently.",
-    fullDescription: "Pinecone VVS is a dual-engine venture validation platform built for venture studios and accelerators that need to triage high volumes of incoming startup ideas. Manual due diligence is slow, inconsistent across reviewers, and expensive. VVS automates both first-pass and deep-dive evaluation so studios can focus human attention only on high-signal opportunities, while giving founders honest, structured feedback before they pitch. The platform offers three core modes: a Quick Score engine that delivers a calibrated verdict in under 30 seconds; a Full Validation pipeline powered by six specialized AI agents that each own one dimension of diligence (problem validation, customer signals, bottom-up market sizing, competitive white-space mapping, business model analysis, and synthesis); and a separately trained XGBoost success-prediction model that estimates a venture's statistical probability of success based on historical startup outcome data. All agent outputs are persisted per case for full auditability, and every agent receives only the minimal, high-signal context it needs to control cost and improve focus.",
+    fullDescription: "This is a dual-engine venture validation platform built for venture studios and accelerators that need to triage high volumes of incoming startup ideas. Manual due diligence is slow, inconsistent across reviewers, and expensive. VVS automates both first-pass and deep-dive evaluation so studios can focus human attention only on high-signal opportunities, while giving founders honest, structured feedback before they pitch. The platform offers three core modes: a Quick Score engine that delivers a calibrated verdict in under 30 seconds; a Full Validation pipeline powered by six specialized AI agents that each own one dimension of diligence (problem validation, customer signals, bottom-up market sizing, competitive white-space mapping, business model analysis, and synthesis); and a separately trained XGBoost success-prediction model that estimates a venture's statistical probability of success based on historical startup outcome data. All agent outputs are persisted per case for full auditability, and every agent receives only the minimal, high-signal context it needs to control cost and improve focus.",
     tags: ["Agentic Workflows", "Typescript", "Python", "Langchain", "Firebase", "XGBoost"],
     image: "/Screenshot_pinecone.png",
     github: "",
@@ -382,7 +382,7 @@ def call_sunbird_api(messages_list, system_message):
       "Founder-facing public funnel for instant scoring, deeper validation requests, and qualified lead routing",
       "Live web research integration and document parsing to ground agent outputs in current, real-world context",
     ],
-    techStack: ["React", "TypeScript", "Vite", "shadcn/ui", "Tailwind CSS", "Firebase", "Firestore", "Cloud Functions", "LangChain", "XGBoost", "scikit-learn", "pandas"],
+    techStack: ["TypeScript", "Tailwind CSS", "Firebase", "Firestore", "LangChain", "XGBoost", "scikit-learn", "pandas"],
     architecture: {
       description: "A dual-engine architecture combining qualitative LLM agent reasoning with quantitative ML prediction. Inputs flow into either the Quick Score engine or the Full Validation pipeline; agent outputs are persisted for auditability; the predictive layer runs in parallel to provide a data-driven complement to qualitative scores.",
       diagram: "custom",
@@ -391,40 +391,67 @@ def call_sunbird_api(messages_list, system_message):
     codeSnippet: {
       title: "XGBoost Success Prediction Pipeline",
       language: "python",
-      code: `import xgboost as xgb
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, MultiLabelBinarizer
-import pandas as pd
+      code: `
 
-# Preprocessing: numerical scaling + categorical one-hot + multi-label industries
-preprocessor = ColumnTransformer(
-    transformers=[
-        ("num", StandardScaler(), numerical_features),
-        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features),
-        ("mlb", MultiLabelBinarizer(), industry_features),
-    ]
+# ---------------------------
+# Train / Validation split
+# ---------------------------
+X_train, X_test, y_train, y_test = train_test_split(
+    X_final, y,
+    test_size=0.15,          # 15% held out forever
+    random_state=42,
+    stratify=y
 )
 
-# XGBoost multi-class classifier with early stopping
-classifier = xgb.XGBClassifier(
-    objective="multi:softprob",
-    num_class=3,
-    eval_metric="mlogloss",
-    early_stopping_rounds=20,
-    n_estimators=1000,
+# ----------------------------
+# Step 2: Split Train into Train and Validation
+# ----------------------------
+X_train, X_val, y_train, y_val = train_test_split(
+    X_train, y_train,
+    test_size=0.2,           # 20% of train becomes validation
+    random_state=42,
+    stratify=y_train
 )
 
-# Unified inference pipeline: preprocessor + best-iteration booster
-pipeline = Pipeline([
-    ("preprocess", preprocessor),
-    ("classifier", classifier),
-])
+# --- class weights ---
+classes, counts = np.unique(y_train, return_counts=True)
+N = len(y_train)
+K = len(classes)
 
-pipeline.fit(X_train, y_train, classifier__eval_set=[(X_val, y_val)])
+custom_weights = {0: 5.0, 1: 1.0, 2: 5.0}  # boost fail + success
+sample_weight = np.array([custom_weights[c] for c in y_train])
 
-# Deployable artifact: preprocessing + truncated booster at best iteration
-# Verified to match manual step-by-step inference with zero drift`
+print("Class counts:", dict(zip(classes, counts)))
+print("Class weights:", custom_weights)
+
+# ---------------------------
+# Train XGBoost model
+# ---------------------------
+
+dtrain = xgb.DMatrix(X_train, label=y_train)
+dval   = xgb.DMatrix(X_val,   label=y_val)
+
+params = {
+    "objective": "multi:softprob",
+    "num_class": 3,
+    "tree_method": "hist",
+    "device": "cuda",
+    "eval_metric": "merror",
+    "max_depth": 6,
+    "eta": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+}
+
+bst = xgb.train(
+    params,
+    dtrain,
+    num_boost_round=1500,
+    evals=[(dval, "val")],
+    verbose_eval=50,
+    early_stopping_rounds=100   # stop if no improvement for 100 rounds
+
+)`
     },
     screenshots: [
       { title: "Venture Studio Validation System", url: "/Screenshot_pinecone.png" },
