@@ -19,9 +19,10 @@ const locations: Location[] = [
   {
     name: "SUNBIRD AI",
     coordinates: [0.3483, 32.6052],
-    achievement: `Language Model Development: Developed a language identification model with 99.93% accuracy and fine-tuned medical-domain large language models for offline applications.\n
-                  Noise Classification: Developed a noise classification model with 81% accuracy and deployed it on Raspberry Pi modules using edge computing.\n
-                  Model Improvement: Improved the factuality response of Sunflower, Uganda's first multilingual large language model, by over 15% through reinforcement learning.`
+    achievement: `Reinforcement Learning: Applied GRPO reinforcement learning on Sunflower, Uganda's first multilingual LLM, gaining 15%+ factuality, 10%+ instruction-following, and reduced model instability.\n
+                  Medical LLM Fine-Tuning: Fine-tuned medical LLM adapters for the HASH project with 15%+ benchmark gains, deployed offline-first to deliver sexual health info to youth across 5 African countries.\n
+                  Synthetic Data Generation: Generated synthetic multilingual datasets for 10+ low-resource Ugandan languages to support Sunflower's fine-tuning and RL pipeline.\n
+                  Published Research: Developed a noise classification model with 81% accuracy, deployed on Raspberry Pi modules using edge computing, published as a peer-reviewed paper.`
   },
   {
     name: "MAKERERE UNIVERSITY",
