@@ -237,7 +237,7 @@ const VSArchitecture = () => {
           </div>
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 shadow-xl border border-gray-600">
             <h4 className="text-white font-bold mb-2">Backend & Infra</h4>
-            <span className="text-gray-300 text-sm">Firebase • Firestore • Auth • Cloud Storage • Cloud Functions v2</p>
+            <p className="text-gray-300 text-sm">Firebase • Firestore • Auth • Cloud Storage • Cloud Functions v2</p>
           </div>
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 shadow-xl border border-gray-600">
             <h4 className="text-white font-bold mb-2">AI & ML</h4>
