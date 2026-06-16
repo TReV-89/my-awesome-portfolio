@@ -71,8 +71,19 @@ else:
     file = LocalFile(cv_file_path)
 
 
-os.makedirs("/app/chroma_db_data", exist_ok=True)
-client = chromadb.PersistentClient(path="/app/chroma_db_data")
+# Resolve the ChromaDB path so it works both locally and inside the container.
+# Priority: explicit CHROMA_DB_PATH env var > containerized /app path > local ./
+chroma_path = os.getenv("CHROMA_DB_PATH")
+if not chroma_path:
+    if os.path.isdir("/app"):
+        # Running inside the Docker container (workdir is /app)
+        chroma_path = "/app/chroma_db_data"
+    else:
+        # Running locally
+        chroma_path = "./chroma_db_data"
+
+os.makedirs(chroma_path, exist_ok=True)
+client = chromadb.PersistentClient(path=chroma_path)
 
 if "rag_collection" not in st.session_state:
     st.session_state.rag_collection = client.get_or_create_collection(

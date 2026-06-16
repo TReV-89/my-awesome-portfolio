@@ -95,7 +95,27 @@ Paste in your compose config (see [docker-compose.yaml](docker-compose.yaml) in 
 
 ---
 
-## 6. Configure Environment Variables
+## 6. Upload the CV PDF to the VM
+
+The `docker-compose.yaml` mounts `./CV:/app/CV`, so the host directory's contents override the CV baked into the image. You must place the CV in `~/app/CV/` on the VM.
+
+From your **local machine**, SCP the PDF up:
+
+```bash
+scp ~/Desktop/Timepledgeprojects/my-awesome-portfolio/RAG_CV/Frontend/CV/TREVOR_TEBAWESWA_CURRICULUM_VITAE.pdf root@<YOUR_VM_IP>:/root/app/CV/
+```
+
+If the `CV` directory doesn't exist yet on the VM, create it first:
+
+```bash
+ssh root@<YOUR_VM_IP> "mkdir -p ~/app/CV"
+```
+
+> The PDF filename must match what `streamlit_ui.py` expects (`specific_file`), or the app falls back to the first `.pdf` it finds in the directory.
+
+---
+
+## 7. Configure Environment Variables
 
 ```bash
 nano .env
@@ -111,7 +131,7 @@ EMBEDDING_MODEL=your_embedding_model_name
 
 ---
 
-## 7. Start the App
+## 8. Start the App
 
 ```bash
 cd ~/app
@@ -124,7 +144,7 @@ The Streamlit app runs on port `8501` internally.
 
 ---
 
-## 8. Install and Configure Nginx
+## 9. Install and Configure Nginx
 
 ```bash
 apt install nginx
@@ -165,7 +185,7 @@ systemctl restart nginx
 
 ---
 
-## 9. Enable HTTPS with Certbot
+## 10. Enable HTTPS with Certbot
 
 ```bash
 apt install certbot python3-certbot-nginx
@@ -176,7 +196,7 @@ Certbot automatically updates the Nginx config to redirect HTTP → HTTPS.
 
 ---
 
-## 10. Open Firewall
+## 11. Open Firewall
 
 ```bash
 ufw allow 80/tcp
