@@ -1,6 +1,7 @@
 import os
 import chromadb
 import streamlit as st
+import streamlit.components.v1 as components
 
 from dotenv import load_dotenv
 import base64
@@ -48,7 +49,7 @@ def display_pdf(file_path):
     st.markdown(pdf_display, unsafe_allow_html=True)
 
 
-cv_dir = "/app/CV"
+cv_dir = "./CV"
 
 # Prioritize the specific file provided
 specific_file = "TREVOR_SAAKA_CURRICULUM_VITAE.docx.pdf"
@@ -70,7 +71,8 @@ else:
     file = LocalFile(cv_file_path)
 
 
-client = chromadb.PersistentClient(path="./RAG_CV/chroma_db_data")
+os.makedirs("/app/chroma_db_data", exist_ok=True)
+client = chromadb.PersistentClient(path="/app/chroma_db_data")
 
 if "rag_collection" not in st.session_state:
     st.session_state.rag_collection = client.get_or_create_collection(
@@ -95,7 +97,14 @@ else:
 
 
 initialize_session_states()
-handle_file_upload(file, st.session_state.rag_collection)
+
+# Skip ingestion entirely if the collection is already populated (e.g. embeddings
+# baked into the image). Otherwise ingest once per session — re-computing on every
+# rerun (button click, message send) is the main slowdown.
+if not st.session_state.get("cv_ingested"):
+    if st.session_state.rag_collection.count() == 0:
+        handle_file_upload(file, st.session_state.rag_collection)
+    st.session_state.cv_ingested = True
 
 st.set_page_config(
     layout="wide",
@@ -193,6 +202,11 @@ with col1:
 
         total_pages = get_pdf_page_count(file.path)
 
+        if "pdf_pages_cache" not in st.session_state:
+            st.session_state.pdf_pages_cache = [
+                get_pdf_page_image(file.path, i) for i in range(total_pages)
+            ]
+
         nav_col1, nav_col2, nav_col3 = st.columns([1, 2, 1])
 
         with nav_col1:
@@ -217,19 +231,37 @@ with col1:
                 st.session_state.pdf_page += 1
                 st.rerun()
 
-        image = get_pdf_page_image(file.path, st.session_state.pdf_page)
+        image = st.session_state.pdf_pages_cache[st.session_state.pdf_page]
         if image:
             st.image(image, width="content")
 
 with col2:
     st.subheader("Chat Assistant")
-    with st.container(height=620):
+    chat_container = st.container(height=620)
+    with chat_container:
         display_chat_messages()
+
+    # Keep the input anchored below the message area, outside the scroll
+    # container, so its position is independent of the PDF page in col1.
     if message := st.chat_input("Ask about my experience..."):
         st.session_state.messages.append(HumanMessage(content=message))
-        with st.spinner("Thinking..."):
-            response = generate_response(message, st.session_state.rag_collection, llm)
-        st.rerun()
+        with chat_container:
+            with st.chat_message("user"):
+                st.write(message)
+            generate_response(message, st.session_state.rag_collection, llm)
+
+    # Auto-scroll the fixed-height chat container to the latest message.
+    components.html(
+        """
+        <script>
+            const containers = parent.document.querySelectorAll(
+                'div[data-testid="stVerticalBlockBorderWrapper"] div[style*="overflow"]'
+            );
+            containers.forEach(c => { c.scrollTop = c.scrollHeight; });
+        </script>
+        """,
+        height=0,
+    )
 
 with st.sidebar:
     st.header("Controls")

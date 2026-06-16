@@ -1,6 +1,5 @@
 import os
 import streamlit as st
-import time
 import pdfplumber  # Add this import
 from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PDFPlumberLoader
@@ -16,7 +15,12 @@ load_dotenv()
 embedding_model_name = os.getenv("EMBEDDING_MODEL")
 
 
-embedding_model = SentenceTransformer(embedding_model_name)
+@st.cache_resource
+def get_embedding_model():
+    return SentenceTransformer(embedding_model_name)
+
+
+embedding_model = get_embedding_model()
 
 
 def get_pdf_page_count(file_path):
@@ -101,7 +105,6 @@ def split_and_load_documents(docs, collection):
             ids=list(new_ids),
         )
 
-        time.sleep(2)
         progress_bar.empty()
         status_text.empty()
         return True
@@ -126,7 +129,7 @@ def load_document(file_path, file_name):
         return None
 
 
-def save_uploaded_file(file, upload_dir="/app/CV_uploaded"):
+def save_uploaded_file(file, upload_dir="./CV_uploaded"):
 
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
@@ -172,15 +175,16 @@ def generate_response(message, collection, llm):
     )
 
     enhanced_system_message = f"""{system_message.content} , Use the following documents to answer the question: {"\n".join(docs)}"""
-    messages = [
-        SystemMessage(content=enhanced_system_message),
-        HumanMessage(content=message),
-    ]
 
-    recent_messages = st.session_state.messages
-    messages.extend(recent_messages)
+    # st.session_state.messages already ends with the current user message
+    # (appended in the UI before this call). Keep only the last few turns so the
+    # prompt doesn't grow unbounded and slow down each subsequent response.
+    history = st.session_state.messages[-6:]
+    messages = [SystemMessage(content=enhanced_system_message)] + history
 
-    response = llm.invoke(messages)
+    with st.chat_message("assistant"):
+        response_text = st.write_stream(llm.stream(messages))
+    response = AIMessage(content=response_text)
     st.session_state.messages.append(response)
     st.session_state.latest_messages_sent.append(response)
     return response

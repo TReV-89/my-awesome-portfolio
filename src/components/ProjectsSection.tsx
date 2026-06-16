@@ -31,6 +31,20 @@ const projects = [
     image: "/RAG_SYSTEM.png",
     slug: "citizen-feedback-rag-system",
   },
+  {
+    title: "Sunbird Internal Model Leaderboard", ",
+    description: "A web-based leaderboard for tracking and comparing AI model performance across benchmarks, metrics, and evaluation datasets, including AfroBench. It provides a single view of how internal models perform relative to external state-of-the-art systems.",
+    tags: ["MLflow", "HuggingFace", "Evaluation", "Python"],
+    image: "/Screenshot_model_leaderboard.png",
+    slug: "sunbird-internal-model-leaderboard",
+  },
+  {
+    title: "Venture Studio Validation System",
+    description: "An AI venture validation platform that instantly scores ideas across six dimensions with a clear verdict, runs deeper multi-agent analysis on market, competition, and business model, and uses machine learning to predict venture success. Built for venture studios triaging deal flow and founders seeking fast, honest feedback.",
+    tags: ["Agentic Workflows", "Typescript", "Python", "Langchain", "Firebase", "XGBoost"],
+    image: "/Screenshot_pinecone.png",
+    slug: "venture-studio-validation-system",
+  },
 ];
 
 const ProjectsSection = () => {
