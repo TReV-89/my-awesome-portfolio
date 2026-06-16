@@ -3,6 +3,7 @@ import FoodOrderingArchitecture from "@/components/FoodOrderingArchitecture";
 import EBSchedulerArchitecture from "@/components/EBSchedulerArchitecture";
 import PeakDemandArchitecture from "@/components/PeakDemandArchitecture";
 import CitizenRagArchitecture from "@/components/CitizenRagArchitecture";
+import VSArchitecture from "@/components/VSArchitecture";
 
 export interface ProjectData {
   title: string;
