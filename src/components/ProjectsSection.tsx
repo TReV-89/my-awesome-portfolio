@@ -32,7 +32,7 @@ const projects = [
     slug: "citizen-feedback-rag-system",
   },
   {
-    title: "Sunbird Internal Model Leaderboard", ",
+    title: "Sunbird Internal Model Leaderboard",
     description: "A web-based leaderboard for tracking and comparing AI model performance across benchmarks, metrics, and evaluation datasets, including AfroBench. It provides a single view of how internal models perform relative to external state-of-the-art systems.",
     tags: ["MLflow", "HuggingFace", "Evaluation", "Python"],
     image: "/Screenshot_model_leaderboard.png",
