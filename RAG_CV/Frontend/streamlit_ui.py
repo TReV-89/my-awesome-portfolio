@@ -52,7 +52,7 @@ def display_pdf(file_path):
 cv_dir = "./CV"
 
 # Prioritize the specific file provided
-specific_file = "TREVOR_SAAKA_CURRICULUM_VITAE.docx.pdf"
+specific_file = "TREVOR_SAAKA_CURRICULUM_VITAE.pdf"
 cv_file_path = os.path.join(cv_dir, specific_file)
 
 # If specific file doesn't exist, fall back to dynamic search
