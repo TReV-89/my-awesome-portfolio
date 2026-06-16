@@ -83,10 +83,16 @@ if not chroma_path:
         chroma_path = "./chroma_db_data"
 
 os.makedirs(chroma_path, exist_ok=True)
-client = chromadb.PersistentClient(path=chroma_path)
 
-if "rag_collection" not in st.session_state:
-    st.session_state.rag_collection = client.get_or_create_collection(
+
+# Cache the client + collection so a SINGLE shared instance is reused across all
+# sessions/tabs. A PersistentClient can't be opened concurrently on the same path,
+# so creating one per session (e.g. a second tab) causes:
+#   "Could not connect to tenant default_tenant"
+@st.cache_resource
+def get_rag_collection(path):
+    client = chromadb.PersistentClient(path=path)
+    return client.get_or_create_collection(
         name="rag_collection_user",
         metadata={
             "description": "CV collection",
@@ -94,6 +100,10 @@ if "rag_collection" not in st.session_state:
             "hnsw:batch_size": 10000,
         },
     )
+
+
+if "rag_collection" not in st.session_state:
+    st.session_state.rag_collection = get_rag_collection(chroma_path)
 
 if "llm" not in st.session_state:
 
@@ -285,9 +295,10 @@ with st.sidebar:
     st.markdown("---")
     if file and os.path.exists(file.path):
         with open(file.path, "rb") as f:
-            st.download_button(
-                label="📄 Download CV",
-                data=f,
-                file_name=file.name,
-                mime="application/pdf",
-            )
+            cv_bytes = f.read()
+        st.download_button(
+            label="📄 Download CV",
+            data=cv_bytes,
+            file_name=file.name,
+            mime="application/pdf",
+        )
