@@ -461,7 +461,7 @@ bst = xgb.train(
   "sunbird-internal-model-leaderboard": {
     title: "Sunbird Internal Model Leaderboard",
     description: "A web-based leaderboard for tracking and comparing AI model performance across benchmarks, metrics, and evaluation datasets, including AfroBench.",
-    fullDescription: "The Sunflower Benchmark Leaderboard is a fully client-side React application that visualizes and compares AI model performance across multilingual benchmarks covering 40+ Ugandan and African languages. It features an Open-LLM-Leaderboard-style interface where internal Sunbird Sunflower models are ranked head-to-head against external state-of-the-art systems across benchmarks spanning knowledge, reasoning, translation, and speech tasks. Models are ranked by a coverage-robust Win % metric that performs pairwise comparisons only within shared (benchmark × language) cells, preventing penalization of models with different language coverage. The app fetches evaluation results live from the Hugging Face Hub, requires no backend, and offers three main views: a sortable/searchable leaderboard table, a charts tab with four visualizations (benchmark dot plot, scaling analysis, knowledge vs. translation scatter, per-language heatmap), and a compare tab for side-by-side head-to-head model comparison.",
+    fullDescription: "The Sunflower Benchmark Leaderboard is a fully client-side React application that visualizes and compares AI model performance across multilingual benchmarks covering 40+ Ugandan and African languages. It features an Open-LLM-Leaderboard-style interface where internal Sunbird Sunflower models are ranked head-to-head against external state-of-the-art systems across benchmarks spanning knowledge, reasoning, translation, and speech tasks. Models are ranked by a coverage-robust Win % metric that performs pairwise comparisons only within shared (benchmark × language) cells,preventing penalization of models with different language coverage. The app fetches evaluation results live from the Hugging Face Hub, requires no backend, and offers three main views: a sortable/searchable leaderboard table, a charts tab with four visualizations (benchmark dot plot, scaling analysis, knowledge vs. translation scatter, per-language heatmap), and a compare tab for side-by-side head-to-head model comparison.",
     tags: ["AI Evaluation", "Multilingual NLP", "Benchmark Leaderboard", "African Languages", "Model Comparison", "React", "Hugging Face", "Open-Weight Models"],
     image: "/Leaderboard.jpeg",
     github: "",
@@ -481,5 +481,6 @@ bst = xgb.train(
       diagram: "custom",
       component: SunbirdLeaderboardArchitecture,
     },
+    screenshots: []
   }
 };
