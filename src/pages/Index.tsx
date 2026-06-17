@@ -10,13 +10,12 @@ import ProjectsSection from "@/components/ProjectsSection";
 import AchievementsMap from "@/components/AchievementsMap";
 import PublicationsSection from "@/components/PublicationsSection";
 import CertificationsSection from "@/components/CertificationsSection";
-import PodcastsSection from "@/components/PodcastsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 
-export type SectionType = "about" | "demo" | "projects" | "achievements" | "publications" | "certifications" | "podcasts" | "contact";
+export type SectionType = "about" | "demo" | "projects" | "achievements" | "publications" | "certifications" | "contact";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<SectionType>("about");
