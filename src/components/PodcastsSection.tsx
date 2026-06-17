@@ -1,6 +1,6 @@
 const PodcastsSection = () => {
   return (
-    <div className="py-12">
+    <section id="podcasts" className="py-24 border-t border-border">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mb-12">
           <p className="font-mono text-sm text-muted-foreground mb-4">Media</p>
@@ -24,7 +24,7 @@ const PodcastsSection = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

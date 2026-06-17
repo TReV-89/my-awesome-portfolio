@@ -10,6 +10,7 @@ const tabs: { name: string; section: SectionType }[] = [
   { name: "Experience", section: "demo" },
   { name: "Projects", section: "projects" },
   { name: "Achievements", section: "achievements" },
+  { name: "Podcasts", section: "podcasts" },
   { name: "Publications", section: "publications" },
   { name: "Certifications", section: "certifications" },
   { name: "Contact", section: "contact" },

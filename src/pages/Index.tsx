@@ -8,6 +8,7 @@ import AboutSection from "@/components/AboutSection";
 import DemoSection from "@/components/DemoSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import AchievementsMap from "@/components/AchievementsMap";
+import PodcastsSection from "@/components/PodcastsSection";
 import PublicationsSection from "@/components/PublicationsSection";
 import CertificationsSection from "@/components/CertificationsSection";
 import ContactSection from "@/components/ContactSection";
@@ -15,7 +16,7 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import PageTransition from "@/components/PageTransition";
 
-export type SectionType = "about" | "demo" | "projects" | "achievements" | "publications" | "certifications" | "contact";
+export type SectionType = "about" | "demo" | "projects" | "achievements" | "podcasts" | "publications" | "certifications" | "contact";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState<SectionType>("about");
@@ -23,7 +24,7 @@ const Index = () => {
 
   useEffect(() => {
     const hash = location.hash.replace("#", "");
-    if (hash && ["about", "demo", "projects", "achievements", "publications", "certifications", "contact"].includes(hash)) {
+    if (hash && ["about", "demo", "projects", "achievements", "podcasts", "publications", "certifications", "contact"].includes(hash)) {
       setActiveSection(hash as SectionType);
       // Scroll to the section tabs after a short delay to ensure content is rendered
       setTimeout(() => {
@@ -47,6 +48,8 @@ const Index = () => {
         return <ProjectsSection />;
       case "achievements":
         return <AchievementsMap />;
+      case "podcasts":
+        return <PodcastsSection />;
       case "publications":
         return <PublicationsSection />;
       case "certifications":
