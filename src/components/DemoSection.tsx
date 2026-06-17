@@ -72,6 +72,8 @@ const DemoSection = () => {
           </div>
         </div>
 
+        <PodcastsSection />
+
         <div className="mb-8">
           <p className="font-mono text-sm text-muted-foreground mb-4">Interactive</p>
           <div className="flex items-start justify-between gap-4 flex-wrap">
