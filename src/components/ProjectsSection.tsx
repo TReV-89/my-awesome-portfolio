@@ -35,7 +35,7 @@ const projects = [
     title: "Sunbird Internal Model Leaderboard",
     description: "A web-based leaderboard for tracking and comparing AI model performance across benchmarks, metrics, and evaluation datasets, including AfroBench.",
     tags: ["AI Evaluation", "Multilingual NLP", "Benchmark Leaderboard", "African Languages", "Model Comparison", "React", "Hugging Face", "Open-Weight Models"],
-    image: "/Screenshot_model_leaderboard.png",
+    image: "/Leaderboard.jpeg",
     slug: "sunbird-internal-model-leaderboard",
   },
   {

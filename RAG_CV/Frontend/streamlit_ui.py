@@ -105,6 +105,18 @@ def get_rag_collection(path):
 if "rag_collection" not in st.session_state:
     st.session_state.rag_collection = get_rag_collection(chroma_path)
 
+
+# Ingest the CV exactly once per app process. @st.cache_resource serializes
+# concurrent first-callers, so simultaneous users can't both trigger ingestion
+# (which would duplicate embedding work and race on the shared Chroma client).
+# The leading underscore tells Streamlit not to hash the unhashable args; the
+# cache is keyed on file_path + file_name instead.
+@st.cache_resource
+def ensure_cv_ingested(_collection, _file, file_path, file_name):
+    if _collection.count() == 0:
+        handle_file_upload(_file, _collection)
+    return True
+
 if "llm" not in st.session_state:
 
     llm = ChatGroq(
@@ -119,13 +131,11 @@ else:
 
 initialize_session_states()
 
-# Skip ingestion entirely if the collection is already populated (e.g. embeddings
-# baked into the image). Otherwise ingest once per session — re-computing on every
-# rerun (button click, message send) is the main slowdown.
-if not st.session_state.get("cv_ingested"):
-    if st.session_state.rag_collection.count() == 0:
-        handle_file_upload(file, st.session_state.rag_collection)
-    st.session_state.cv_ingested = True
+# Ingest once per app process (not per session). See ensure_cv_ingested above.
+if file:
+    ensure_cv_ingested(
+        st.session_state.rag_collection, file, file.path, file.name
+    )
 
 st.set_page_config(
     layout="wide",
