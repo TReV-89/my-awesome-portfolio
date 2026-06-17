@@ -179,14 +179,16 @@ const Project = () => {
           </section>
 
           {/* Code Snippet */}
-          <section className="mb-16">
-            <h2 className="font-mono text-sm text-muted-foreground mb-4">Code Example</h2>
-            <CodeBlock 
-              code={project.codeSnippet.code}
-              language={project.codeSnippet.language}
-              title={project.codeSnippet.title}
-            />
-          </section>
+          {project.codeSnippet && (
+            <section className="mb-16">
+              <h2 className="font-mono text-sm text-muted-foreground mb-4">Code Example</h2>
+              <CodeBlock 
+                code={project.codeSnippet.code}
+                language={project.codeSnippet.language}
+                title={project.codeSnippet.title}
+              />
+            </section>
+          )}
 
           {/* Screenshots */}
           <section className="mb-16">
