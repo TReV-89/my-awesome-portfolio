@@ -457,5 +457,34 @@ bst = xgb.train(
     screenshots: [
       { title: "Venture Studio Validation System", url: "/Screenshot_pinecone.png" },
     ]
+  },
+  "sunbird-internal-model-leaderboard": {
+    title: "Sunbird Internal Model Leaderboard",
+    description: "A web-based leaderboard for tracking and comparing AI model performance across benchmarks, metrics, and evaluation datasets, including AfroBench.",
+    fullDescription: "The Sunflower Benchmark Leaderboard is a fully client-side React application that visualizes and compares AI model performance across multilingual benchmarks covering 40+ Ugandan and African languages. It features an Open-LLM-Leaderboard-style interface where internal Sunbird Sunflower models are ranked head-to-head against external state-of-the-art systems across benchmarks spanning knowledge, reasoning, translation, and speech tasks. Models are ranked by a coverage-robust Win % metric that performs pairwise comparisons only within shared (benchmark × language) cells — preventing penalization of models with different language coverage. The app fetches evaluation results live from the Hugging Face Hub, requires no backend, and offers three main views: a sortable/searchable leaderboard table, a charts tab with four visualizations (benchmark dot plot, scaling analysis, knowledge vs. translation scatter, per-language heatmap), and a compare tab for side-by-side head-to-head model comparison.",
+    tags: ["AI Evaluation", "Multilingual NLP", "Benchmark Leaderboard", "African Languages", "Model Comparison", "React", "Hugging Face", "Open-Weight Models"],
+    image: "/Screenshot_model_leaderboard.png",
+    github: "",
+    live: "https://huggingface.co/spaces/Sunbird/sunflower-leaderboard",
+    features: [
+      "Sortable, searchable leaderboard table ranking models by coverage-robust Win % across all benchmarks",
+      "10 benchmarks including AfriMMLU, AfriXNLI, Belebele, AfriMGSM, Global MMLU, SALT, NTREX, FLORES, and internal translation",
+      "Per-language drill-down for any selected benchmark showing model performance across 40+ African and Ugandan languages",
+      "Charts tab with four visualizations: benchmark dot plot with random-chance baselines, 14B vs. 32B scaling analysis, knowledge vs. translation scatter plot, and a per-language heatmap",
+      "Side-by-side model comparison view with shared benchmark bar chart and per-language delta calculations",
+      "Live data fetching from Hugging Face Hub dataset (Sunbird/sunflower-eval-results) with manual refresh",
+      "Color-coded score cells (red-to-green gradient) and medal icons for top 3 ranked models",
+      "Dark/light theme toggle with localStorage persistence",
+      "Fully client-side — no backend or authentication required"
+    ],
+    techStack: ["React 18", "Vite", "TypeScript", "Tailwind CSS", "Recharts", "TanStack React Table", "Lucide React", "Hugging Face Hub API", "PostCSS"],
+    architecture: {
+      description: "The system follows a four-stage linear pipeline. Stage 1 — Evaluation Script: Model inference is run against benchmark datasets (AfriMMLU, SALT, FLORES, etc.) and metrics are computed (accuracy, BLEU, chrF, exact match) per model, benchmark, and language. Stage 2 — MLflow: All experiment results and metrics are logged to MLflow for tracking, versioning, and comparison across evaluation runs. Stage 3 — Hugging Face Dataset: Finalized results are exported as JSONL files and pushed to the public Hugging Face dataset (Sunbird/sunflower-eval-results), one file per model/benchmark shard. Stage 4 — Leaderboard: The client-side React app fetches all JSONL shards in parallel from the HF Hub API at page load, aggregates them into a model × benchmark score matrix, computes coverage-robust Win % rankings via pairwise head-to-head comparisons within shared benchmark × language cells, and renders results across three views: a sortable Leaderboard table, a Charts tab with four visualizations, and a Compare tab for side-by-side model analysis. No backend is required after results are published to the dataset.",
+      diagram: "custom",
+      component: SunbirdLeaderboardArchitecture,
+    },
+    screenshots: [
+      { title: "Sunbird Internal Model Leaderboard", url: "/Screenshot_model_leaderboard.png" },
+    ]
   }
 };
