@@ -1,5 +1,6 @@
 import { ExternalLink, Briefcase } from "lucide-react";
 import { useState } from "react";
+import PodcastsSection from "./PodcastsSection";
 
 const experience = [
   {
