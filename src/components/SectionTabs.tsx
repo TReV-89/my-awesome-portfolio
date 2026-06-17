@@ -12,7 +12,6 @@ const tabs: { name: string; section: SectionType }[] = [
   { name: "Achievements", section: "achievements" },
   { name: "Publications", section: "publications" },
   { name: "Certifications", section: "certifications" },
-  { name: "Podcasts", section: "podcasts" },
   { name: "Contact", section: "contact" },
 ];
 
