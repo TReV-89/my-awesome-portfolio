@@ -21,7 +21,7 @@ export interface ProjectData {
     diagram: string;
     component?: ComponentType;
   };
-  codeSnippet: {
+  codeSnippet?: {
     title: string;
     language: string;
     code: string;
