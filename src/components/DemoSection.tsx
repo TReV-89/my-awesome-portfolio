@@ -1,6 +1,5 @@
 import { ExternalLink, Briefcase } from "lucide-react";
 import { useState } from "react";
-import PodcastsSection from "./PodcastsSection";
 
 const experience = [
   {
@@ -71,8 +70,6 @@ const DemoSection = () => {
             </div>
           </div>
         </div>
-
-        <PodcastsSection />
 
         <div className="mb-8">
           <p className="font-mono text-sm text-muted-foreground mb-4">Interactive</p>
