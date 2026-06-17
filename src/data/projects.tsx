@@ -4,6 +4,7 @@ import EBSchedulerArchitecture from "@/components/EBSchedulerArchitecture";
 import PeakDemandArchitecture from "@/components/PeakDemandArchitecture";
 import CitizenRagArchitecture from "@/components/CitizenRagArchitecture";
 import VSArchitecture from "@/components/VSArchitecture";
+import SunbirdLeaderboardArchitecture from "@/components/SunbirdLeaderboardArchitecture";
 
 export interface ProjectData {
   title: string;
