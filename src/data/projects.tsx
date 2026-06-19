@@ -369,8 +369,8 @@ def call_sunbird_api(messages_list, system_message):
   },
   "venture-studio-validation-system": {
     title: "Venture Studio Validation System",
-    description: "An AI-powered venture validation platform that combines LLM-driven multi-agent analysis with a machine-learning success-prediction model to help venture studios and founders evaluate early-stage startup ideas quickly and consistently.",
-    fullDescription: "This is a dual-engine venture validation platform built for venture studios and accelerators that need to triage high volumes of incoming startup ideas. Manual due diligence is slow, inconsistent across reviewers, and expensive. VVS automates both first-pass and deep-dive evaluation so studios can focus human attention only on high-signal opportunities, while giving founders honest, structured feedback before they pitch. The platform offers three core modes: a Quick Score engine that delivers a calibrated verdict in under 30 seconds; a Full Validation pipeline powered by six specialized AI agents that each own one dimension of diligence (problem validation, customer signals, bottom-up market sizing, competitive white-space mapping, business model analysis, and synthesis); and a separately trained XGBoost success-prediction model that estimates a venture's statistical probability of success based on historical startup outcome data. All agent outputs are persisted per case for full auditability, and every agent receives only the minimal, high-signal context it needs to control cost and improve focus.",
+    description: "An AI-powered venture validation platform that combines LLM-driven multi-agent analysis with a machine-learning risk-signal model to help venture studios and founders evaluate early-stage startup ideas quickly and consistently.",
+    fullDescription: "This is a dual-engine venture validation platform built for venture studios and accelerators that need to triage high volumes of incoming startup ideas. Manual due diligence is slow, inconsistent across reviewers, and expensive. VVS automates both first-pass and deep-dive evaluation so studios can focus human attention only on high-signal opportunities, while giving founders honest, structured feedback before they pitch. The platform offers three core modes: a Quick Score engine that delivers a calibrated verdict in under 30 seconds; a Full Validation pipeline powered by six specialized AI agents that each own one dimension of diligence (problem validation, customer signals, bottom-up market sizing, competitive white-space mapping, business model analysis, and synthesis); and an experimental ML risk-signal model that produces an early-stage venture risk assessment to complement the qualitative agent scores. The risk model was trained on a curated dataset of approximately 50,000 companies, combining a public Crunchbase startup dataset from Kaggle with an additional ~25,000 rows sourced directly via the Crunchbase API. The dataset was narrowed to European companies whose last recorded funding round was at least four years prior — a deliberate filter designed to give outcomes enough time to materialize before labeling. All agent outputs are persisted per case for full auditability.",
     tags: ["Agentic Workflows", "Typescript", "Python", "Langchain", "Firebase", "XGBoost"],
     image: "/Screenshot_pinecone.png",
     github: "",
@@ -378,7 +378,7 @@ def call_sunbird_api(messages_list, system_message):
     features: [
       "Quick Score engine delivering structured verdicts in under 30 seconds across calibrated investment dimensions",
       "Full Validation multi-agent pipeline with six specialist agents covering problem, customer, market, competition, business model, and synthesis",
-      "Predictive ML layer using an XGBoost classifier trained on historical startup outcomes to estimate fail / operating / success probabilities",
+      "Experimental ML risk-signal layer providing an early-stage venture risk assessment to complement qualitative agent scores",
       "Case and pipeline management with document attachments, activity history, and queryable conversation memory",
       "Founder-facing public funnel for instant scoring, deeper validation requests, and qualified lead routing",
       "Live web research integration and document parsing to ground agent outputs in current, real-world context",
@@ -390,69 +390,28 @@ def call_sunbird_api(messages_list, system_message):
       component: VSArchitecture,
     },
     codeSnippet: {
-      title: "XGBoost Success Prediction Pipeline",
+      title: "VC-Style Exit Modeling Pipeline",
       language: "python",
-      code: `
-
-# ---------------------------
-# Train / Validation split
-# ---------------------------
-X_train, X_test, y_train, y_test = train_test_split(
-    X_final, y,
-    test_size=0.15,          # 15% held out forever
-    random_state=42,
-    stratify=y
-)
-
-# ----------------------------
-# Step 2: Split Train into Train and Validation
-# ----------------------------
-X_train, X_val, y_train, y_val = train_test_split(
-    X_train, y_train,
-    test_size=0.2,           # 20% of train becomes validation
-    random_state=42,
-    stratify=y_train
-)
-
-# --- class weights ---
-classes, counts = np.unique(y_train, return_counts=True)
-N = len(y_train)
-K = len(classes)
-
-custom_weights = {0: 5.0, 1: 1.0, 2: 5.0}  # boost fail + success
-sample_weight = np.array([custom_weights[c] for c in y_train])
-
-print("Class counts:", dict(zip(classes, counts)))
-print("Class weights:", custom_weights)
-
-# ---------------------------
-# Train XGBoost model
-# ---------------------------
-
-dtrain = xgb.DMatrix(X_train, label=y_train)
-dval   = xgb.DMatrix(X_val,   label=y_val)
-
-params = {
-    "objective": "multi:softprob",
-    "num_class": 3,
-    "tree_method": "hist",
-    "device": "cuda",
-    "eval_metric": "merror",
-    "max_depth": 6,
-    "eta": 0.05,
-    "subsample": 0.8,
-    "colsample_bytree": 0.8,
+      code: `import pandas as pd
+# Core Logic: Industry-Specific Exit Multiples
+exit_multiple_mapping = {
+    "AI SaaS / AI Tools":        {"multiple_low": 10, "multiple_high": 20, "metric": "ARR"},
+    "B2B SaaS (Horizontal)":     {"multiple_low": 4,  "multiple_high": 6,  "metric": "ARR"},
+    "Hardware / Deep Tech":      {"multiple_low": 1,  "multiple_high": 3,  "metric": "Revenue"}
 }
 
-bst = xgb.train(
-    params,
-    dtrain,
-    num_boost_round=1500,
-    evals=[(dval, "val")],
-    verbose_eval=50,
-    early_stopping_rounds=100   # stop if no improvement for 100 rounds
+# VC Math: Back-calculating required Exit Revenue for a 10x return
+# Formula: (Funding * Required_Multiple) / Ownership_Stake
+required_fund_multiple = 10
+ownership_at_exit = 0.2
 
-)`
+exit_value = (combined_df["Total Funding Amount USD"] * required_fund_multiple) / ownership_at_exit
+combined_df["Required_Exit_Revenue"] = exit_value / combined_df["Industry Groups"].map(
+    lambda x: exit_multiple_mapping.get(x, {"multiple_low": 2})["multiple_low"]
+)
+
+print("Example Processing Result:")
+display(combined_df[['Organization Name', 'Industry Groups', 'Required_Exit_Revenue']].head())`
     },
     screenshots: [
       { title: "Venture Studio Validation System", url: "/Screenshot_pinecone.png" },
